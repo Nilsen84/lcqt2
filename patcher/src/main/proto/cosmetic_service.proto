@@ -1,0 +1,15 @@
+syntax = "proto3";
+package lcqt.cosmetic;
+import "util.proto";
+
+message LoginResponse {
+  Settings settings = 1;
+  repeated int32 owned_cosmetic_ids = 2;
+  repeated util.Color available_plus_colors = 3;
+  util.Color logo_color = 4;
+}
+
+message Settings {
+  repeated int32 active_cosmetic_ids = 1;
+  util.Color plus_color = 3;
+}

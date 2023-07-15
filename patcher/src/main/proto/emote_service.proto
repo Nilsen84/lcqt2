@@ -1,0 +1,16 @@
+syntax = "proto3";
+package lcqt.emote;
+
+message LoginResponse {
+  repeated int32 owned_emote_ids = 1;
+}
+
+message UseEmoteResponse {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_OK = 1;
+    STATUS_EMOTE_NOT_OWNED = 2;
+  }
+
+  Status status = 1;
+}

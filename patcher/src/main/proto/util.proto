@@ -1,0 +1,6 @@
+syntax = "proto3";
+package lcqt.util;
+
+message Color {
+  int32 color = 1;
+}
