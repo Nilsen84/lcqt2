@@ -6,6 +6,7 @@ use serde_json::json;
 use tungstenite::{Message, WebSocket};
 
 pub struct ChromeDebugger {
+    id: u32,
     ws: WebSocket<TcpStream>
 }
 
@@ -15,6 +16,7 @@ impl ChromeDebugger {
         let ws_url = get_websocket_url(&mut stream)?;
 
         Ok(Self {
+            id: 1,
             ws: tungstenite::client(ws_url, stream)?.0
         })
     }
@@ -22,11 +24,13 @@ impl ChromeDebugger {
     pub fn send(&mut self, method: &str, params: serde_json::Value) -> Result<(), Box<dyn Error>> {
         self.ws.write_message(Message::Text(
             serde_json::to_string(&json!({
-                "id": 1,
+                "id": self.id,
                 "method": method,
                 "params": params
             }))?
         ))?;
+
+        self.id += 1;
 
         if cfg!(debug_assertions) {
             println!("{}", self.ws.read_message()?);
