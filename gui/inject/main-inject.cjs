@@ -68,12 +68,14 @@ module.exports = function() {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
-                enableRemoteModule: true
+                additionalArguments: [configPath]
             },
-            autoHideMenuBar: true,
+            autoHideMenuBar: true
         })
 
-        window.on('close', e => mainWin.focus());
+        window.on('close', e => {
+            mainWin.focus()
+        });
         window.loadURL(`file://${__dirname}/index.html`)
     })
 
@@ -85,20 +87,6 @@ module.exports = function() {
             installDir,
             jvmArgs: parse(config.jvmArgs)
         }
-    })
-
-    ipcMain.handle('LCQT_READ_CONFIG', async () => {
-        return fs.promises.readFile(configPath, 'utf8')
-            .then(f => JSON.parse(f))
-            .catch(() => {})
-    })
-
-    ipcMain.on('LCQT_SAVE_CONFIG', async (event, config) => {
-        await fs.promises.writeFile(
-            configPath,
-            JSON.stringify(config, null, 4),
-            'utf8'
-        )
     })
 
     for(const contents of webContents.getAllWebContents()) {

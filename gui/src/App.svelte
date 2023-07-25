@@ -30,20 +30,27 @@
         jvmEnabled: true,
         customJvm: false,
         customJvmPath: '',
-        jvmArgs: ''
+        jvmArgs: '',
     }
 
 
     if(!dev) {
-        const { ipcRenderer } = require('electron')
+        const configPath: string = window.process.argv.pop()
+        const fs = require('fs')
 
-        ipcRenderer.invoke('LCQT_READ_CONFIG').then(savedConfig => {
-            config = {...config, ...savedConfig}
-        })
+        try {
+            config = {...config, ...JSON.parse(fs.readFileSync(configPath, 'utf8'))}
+        }catch(e) {
+            console.error(e)
+        }
 
-        window.addEventListener('beforeunload', () => {
-            ipcRenderer.send('LCQT_SAVE_CONFIG', config)
-        })
+        window.onchange = () => {
+            fs.writeFileSync(
+                configPath,
+                JSON.stringify(config, null, 4),
+                'utf8'
+            )
+        }
     }
 
     function openUrl(url: string) {
