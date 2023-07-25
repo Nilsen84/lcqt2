@@ -13,8 +13,6 @@ object Proxy {
     private val assetDir = File(System.getProperty("user.home"), ".lunarclient/textures/assets/lunar")
     private val json = Json { ignoreUnknownKeys = true }
 
-    private var purchasedCosmetics = listOf<Int>()
-
     private val cosmeticsIndex = assetDir.resolve("cosmetics/index").readLines().map(CosmeticIndexEntry::fromLine)
     private val emotesIndex = json.decodeFromString<EmoteIndex>(assetDir.resolve("emotes/emotes.json").readText()).emotes
 
@@ -31,8 +29,6 @@ object Proxy {
         when(method) {
             "lunarclient.websocket.cosmetic.v1.CosmeticService.Login" -> {
                 return CosmeticService.LoginResponse.parseFrom(contents).copy {
-                    purchasedCosmetics = ownedCosmeticIds
-
                     ownedCosmeticIds.clear()
                     ownedCosmeticIds += cosmeticsIndex.map { it.id }
 
