@@ -6,15 +6,27 @@ plugins {
 }
 
 val os by extra(OperatingSystem.current()!!)
-val dist by configurations.creating
 
-dependencies {
-    dist(project(":patcher", "fat"))
-    dist(project(":injector", "exe"))
-    dist(project(":gui", "asar"))
+val buildType = Attribute.of("buildType", String::class.java)
+
+val components by configurations.creating {
+    attributes.attribute(buildType, "debug")
 }
 
-tasks.distTar {
+val dist by configurations.registering {
+    extendsFrom(components)
+    attributes.attribute(buildType, "release")
+}
+
+dependencies {
+    components(project(":patcher")) {
+        isTransitive = false
+    }
+    components(project(":injector"))
+    components(project(":gui", "asar"))
+}
+
+tasks.withType<Tar>().configureEach {
     compression = Compression.GZIP
     archiveExtension.set("tar.gz")
 }
@@ -28,6 +40,20 @@ distributions {
             into("/")
         }
     }
+    create("debug") {
+        contents {
+            from(components)
+        }
+    }
+}
+
+tasks.register("runDebug", Exec::class) {
+    group = "distribution"
+    val installDebugDist by tasks.getting(Sync::class)
+    dependsOn(installDebugDist)
+    executable(os.getExecutableName(
+        "${installDebugDist.destinationDir}/injector"
+    ))
 }
 
 tasks.register("run", Exec::class) {

@@ -1,3 +1,4 @@
+import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
@@ -6,23 +7,31 @@ plugins {
 
 val os: OperatingSystem by rootProject.extra
 
-val cargoBuild by tasks.registering(Exec::class) {
-    group = "build"
-    commandLine("cargo", "build", "--release")
+val buildType = Attribute.of("buildType", String::class.java)
 
-    outputs.file(os.getExecutableName("target/release/injector"))
-    //cargo is so fast theres no point in specifying inputs
-    outputs.upToDateWhen { false }
+listOf("debug", "release").forEach { config ->
+    val buildTask = tasks.register("build${config.capitalized()}", Exec::class) {
+        group = "build"
+        commandLine("cargo", "build")
+        if(config == "release") args("--release")
+        outputs.file(os.getExecutableName("target/$config/injector"))
+        outputs.upToDateWhen { false }
+    }
+
+    configurations.register("${config}Exe") {
+        isCanBeResolved = false
+        attributes.attribute(buildType, config)
+    }
+
+    artifacts.add("${config}Exe", buildTask)
+}
+
+if(os.isWindows) {
+    artifacts.add("debugExe", file("target/debug/injector.pdb")) {
+        builtBy("buildDebug")
+    }
 }
 
 tasks.clean {
     delete("target")
-}
-
-configurations.create("exe") {
-    isCanBeResolved = false
-}
-
-artifacts {
-    add("exe", cargoBuild)
 }

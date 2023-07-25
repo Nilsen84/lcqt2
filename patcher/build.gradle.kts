@@ -33,19 +33,12 @@ protobuf {
 }
 
 tasks.jar {
+    exclude("*.proto")
+    includeEmptyDirs = false
     from({ configurations.runtimeClasspath.get().map { zipTree(it) } }) {
         exclude("**/module-info.class")
     }
-
     manifest.attributes(
         "Premain-Class" to "io.github.nilsen84.lcqt.PremainKt"
     )
-}
-
-configurations.create("fat") {
-    isCanBeResolved = false
-}
-
-artifacts {
-    add("fat", tasks.jar)
 }

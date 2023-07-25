@@ -2,10 +2,9 @@
 
 use std::{env, io};
 use std::error::Error;
-use std::io::{BufRead, BufReader, ErrorKind};
 use std::net::{Ipv4Addr, TcpListener};
 use std::path::Path;
-use std::process::{Child, Command, Stdio};
+use std::process::{Command};
 use std::string::String;
 
 use serde_json::json;
@@ -53,14 +52,13 @@ fn run() -> Result<(), Box<dyn Error>> {
         let mut debugger = ChromeDebugger::connect(port).map_err(|e| format!("failed to connect debugger: {}", e))?;
 
         let payload = format!(
-            "{}({})",
-            include_str!("payload.js"),
+            "require(`${{{}}}/gui.asar/main-inject.js`)()",
             serde_json::to_string(env::current_exe()?.parent().unwrap())?
         );
 
         debugger.send("Runtime.evaluate", json!({
             "expression": payload,
-            "includeCommandLineAPI": true,
+            "includeCommandLineAPI": true
         }))?;
     };
 

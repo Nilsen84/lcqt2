@@ -11,24 +11,30 @@ val npm = if (os.isWindows) "npm.cmd" else "npm"
 val npmInstall by tasks.registering(Exec::class) {
     group = "build"
     commandLine(npm, "install")
+    inputs.file("package.json")
+    outputs.file("package-lock.json")
+    outputs.dir("node_modules")
 }
 
-val buildAsar by tasks.registering(Exec::class) {
+val buildGui by tasks.registering(Exec::class) {
+    dependsOn(npmInstall)
     group = "build"
     commandLine(npm, "run", "build")
 
-    outputs.file("out/gui.asar")
     inputs.dir("src")
-    inputs.dir("public")
+    inputs.dir("inject")
     inputs.dir("node_modules")
     inputs.files(
         "index.html",
-        "package.json",
         "svelte.config.js",
         "tsconfig.json",
         "tsconfig.node.json",
-        "vite.config.ts"
+        "vite.config.ts",
+        "postcss.config.js",
+        "tailwind.config.js"
     )
+
+    outputs.dir("out")
 }
 
 tasks.clean {
@@ -40,5 +46,7 @@ configurations.create("asar") {
 }
 
 artifacts {
-    add("asar", buildAsar)
+    add("asar", file("out/gui.asar")){
+        builtBy(buildGui)
+    }
 }
