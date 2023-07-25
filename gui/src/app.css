@@ -14,3 +14,7 @@ input[type=text], textarea, .button {
 *:disabled {
     background-color: #f1f1f1;
 }
+
+*::-webkit-scrollbar {
+    display: none;
+}

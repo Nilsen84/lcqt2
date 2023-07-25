@@ -19,7 +19,7 @@
     <div class="flex h-16 overflow-hidden relative">
         <label class="h-full aspect-square cursor-pointer">
             <input type="checkbox" bind:checked={enabled} class="hidden">
-            <div class="h-full w-full bg-red-400" class:checked={enabled} class:unchecked={!enabled}></div>
+            <div class="h-full w-full bg-red-400 {enabled ? 'checked' : 'unchecked'}"></div>
         </label>
 
         <div

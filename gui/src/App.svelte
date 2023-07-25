@@ -113,12 +113,3 @@
         />
     </Module>
 </main>
-
-<style>
-    main::-webkit-scrollbar {
-        display: none;
-    }
-    textarea::-webkit-scrollbar {
-        display: none;
-    }
-</style>
