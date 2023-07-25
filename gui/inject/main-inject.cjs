@@ -83,9 +83,11 @@ module.exports = function() {
         let config = readConfigSync()
 
         event.returnValue = {
+            customJvm: config.jvmEnabled && config.customJvm && config.customJvmPath,
             configPath,
             installDir,
-            jvmArgs: parse(config.jvmArgs)
+            jvmArgs: config.jvmEnabled && parse(config.jvmArgs),
+            crackedUsername: config.crackedEnabled && config.crackedUsername
         }
     })
 
