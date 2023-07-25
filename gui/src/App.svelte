@@ -7,17 +7,29 @@
 
     type Config = {
         cosmeticsEnabled: boolean,
+
+        crackedEnabled: boolean,
+        crackedUsername: string,
+
         freelookEnabled: boolean,
+
         jvmEnabled: boolean,
         customJvm: boolean,
+        customJvmPath: string,
         jvmArgs: string
     }
 
     let config: Config = {
         cosmeticsEnabled: false,
+
+        crackedEnabled: false,
+        crackedUsername: '',
+
         freelookEnabled: false,
+
         jvmEnabled: true,
         customJvm: false,
+        customJvmPath: '',
         jvmArgs: ''
     }
 
@@ -66,23 +78,29 @@
         </button>
     </div>
 
-    <Module name="Cosmetics Unlocker"></Module>
+    <Module name="Cosmetics Unlocker" bind:enabled={config.cosmeticsEnabled}></Module>
 
-    <Module name="Cracked Account">
+    <Module name="Cracked Account" bind:enabled={config.crackedEnabled}>
         <div class="flex flex-row w-full justify-between items-center">
             Username:
-            <input type="text" class="p-1 outline-none" spellcheck="false" placeholder="Player999"/>
+            <input type="text" class="p-1 outline-none" spellcheck="false" placeholder="Player999" bind:value={config.crackedUsername}/>
         </div>
     </Module>
 
-    <Module name="Freelook Enable"></Module>
+    <Module name="Freelook Enable" bind:enabled={config.freelookEnabled}></Module>
 
     <Module name="JVM" bind:enabled={config.jvmEnabled}>
         <div class="flex flex-row items-center gap-2">
             <Switch bind:enabled={config.customJvm}></Switch>
             <nobr>Custom JVM</nobr>
-            <div class="w-10"></div>
-            <input type="text" class="p-1 outline-none w-96 flex-grow" placeholder="C:\Path\To\Java Installation\bin\javaw.exe" spellcheck="false" disabled="{!config.customJvm}">
+            <input
+                    type="text"
+                    class="ml-4 p-1 outline-none w-96 flex-grow"
+                    placeholder="C:\Path\To\Java Installation\bin\javaw.exe"
+                    spellcheck="false"
+                    disabled="{!config.customJvm}"
+                    bind:value={config.customJvmPath}
+            >
         </div>
 
         <div class="text-center mt-4">JVM Args</div>
