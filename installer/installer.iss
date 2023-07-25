@@ -1,5 +1,6 @@
 #define MyAppName "Lunar Client Qt"
-#define MyAppVersion "2.0.0"
+; Specified using /DAppVersion="2.0.0"
+; #define AppVersion "2.0.0"
 #define MyAppPublisher "Nilsen84"
 #define MyAppExeName "Lunar Client Qt.exe"
 
@@ -8,15 +9,15 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{796DE276-9DCF-4095-808C-04E8A91DE65B}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-AppVerName={#MyAppName} {#MyAppVersion}
+AppVersion={#AppVersion}
+AppVerName={#MyAppName} {#AppVersion}
 AppPublisher={#MyAppPublisher}
 UninstallDisplayName={#MyAppName}
 DefaultDirName={autopf64}\{#MyAppName}
 DisableProgramGroupPage=yes
 SourceDir=..\build\install\lcqt2\
 OutputDir={#SourcePath}
-OutputBaseFilename={#MyAppName} Setup v{#MyAppVersion}
+OutputBaseFilename={#MyAppName} Setup v{#AppVersion}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
