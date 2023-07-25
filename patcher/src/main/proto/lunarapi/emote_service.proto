@@ -1,5 +1,5 @@
 syntax = "proto3";
-package lcqt.emote;
+package lunarapi.emote;
 
 message LoginResponse {
   repeated int32 owned_emote_ids = 1;

@@ -1,6 +1,6 @@
 package io.github.nilsen84.lcqt.cosmetics
 
-import lcqt.util.Util.Color
+import lunarapi.util.Util
 
 val colorPallete = listOf(
     0xffffff,
@@ -221,4 +221,4 @@ val colorPallete = listOf(
 	0xffffd7
 )
     .shuffled()
-    .map { Color.newBuilder().setColor(it).build() }
+    .map { Util.Color.newBuilder().setColor(it).build() }

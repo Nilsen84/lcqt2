@@ -1,12 +1,11 @@
 package io.github.nilsen84.lcqt.cosmetics
 
 import kotlinx.serialization.json.Json
-import lcqt.cosmetic.CosmeticService
-import lcqt.cosmetic.copy
-import lcqt.emote.EmoteService
-import lcqt.emote.EmoteService.UseEmoteResponse
-import lcqt.emote.copy
-import lcqt.util.color
+import lunarapi.cosmetic.CosmeticService
+import lunarapi.cosmetic.copy
+import lunarapi.emote.EmoteService
+import lunarapi.emote.copy
+import lunarapi.util.color
 import java.io.File
 
 @Suppress("unused")
@@ -54,10 +53,10 @@ object Proxy {
                 }.toByteArray()
             }
             "lunarclient.websocket.emote.v1.EmoteService.UseEmote" -> {
-                val parsed = UseEmoteResponse.parseFrom(contents)
-                if(parsed.status == UseEmoteResponse.Status.STATUS_EMOTE_NOT_OWNED) {
+                val parsed = EmoteService.UseEmoteResponse.parseFrom(contents)
+                if(parsed.status == EmoteService.UseEmoteResponse.Status.STATUS_EMOTE_NOT_OWNED) {
                     return parsed.copy {
-                        status = UseEmoteResponse.Status.STATUS_OK
+                        status = EmoteService.UseEmoteResponse.Status.STATUS_OK
                     }.toByteArray()
                 }
                 return contents

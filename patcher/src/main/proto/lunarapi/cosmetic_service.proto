@@ -1,6 +1,6 @@
 syntax = "proto3";
-package lcqt.cosmetic;
-import "util.proto";
+package lunarapi.cosmetic;
+import "lunarapi/util.proto";
 
 message LoginResponse {
   Settings settings = 1;
