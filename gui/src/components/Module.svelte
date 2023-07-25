@@ -38,7 +38,7 @@
 
     {#if $$slots.default}
         <div
-                class="bg-[#f8f9fa] overflow-hidden transition-all ease-linear duration-100"
+                class="bg-[#f8f9fa] overflow-hidden transition-all ease-out duration-75"
                 bind:this={drawer}
                 style="height: 0"
         >
