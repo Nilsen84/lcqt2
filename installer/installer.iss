@@ -1,5 +1,5 @@
 #define MyAppName "Lunar Client Qt"
-#define MyAppVersion "1.0"
+#define MyAppVersion "2.0.0"
 #define MyAppPublisher "Nilsen84"
 #define MyAppExeName "Lunar Client Qt.exe"
 
@@ -16,7 +16,7 @@ DefaultDirName={autopf64}\{#MyAppName}
 DisableProgramGroupPage=yes
 SourceDir=..\build\install\lcqt2\
 OutputDir={#SourcePath}
-OutputBaseFilename={#MyAppName} Setup
+OutputBaseFilename={#MyAppName} Setup v{#MyAppVersion}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -32,11 +32,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourcePath}\icon.ico"; DestDir: "{app}"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\icon.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\icon.ico"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: nowait postinstall skipifsilent unchecked
