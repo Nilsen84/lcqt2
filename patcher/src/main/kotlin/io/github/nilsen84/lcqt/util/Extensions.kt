@@ -3,6 +3,7 @@ package io.github.nilsen84.lcqt.util
 import io.github.nilsen84.bytecode_dsl.InsnBuilder
 import io.github.nilsen84.bytecode_dsl.visitAsm
 import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.Handle
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.AbstractInsnNode
 import org.objectweb.asm.tree.ClassNode
@@ -61,3 +62,19 @@ fun ClassNode.dump(fileName: String) {
     accept(cw)
     File(fileName).writeBytes(cw.toByteArray())
 }
+
+fun InsnBuilder.makeConcatWithConstants(
+    desc: String,
+    format: String
+) = invokedynamic(
+    "makeConcatWithConstants",
+    desc,
+    Handle(
+        Opcodes.H_INVOKESTATIC,
+        "java/lang/invoke/StringConcatFactory",
+        "makeConcatWithConstants",
+        "(Ljava/lang/invoke/MethodHandles\$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;",
+        false
+    ),
+    format
+)

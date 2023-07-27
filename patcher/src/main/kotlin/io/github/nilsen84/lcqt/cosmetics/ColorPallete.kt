@@ -1,7 +1,6 @@
 package io.github.nilsen84.lcqt.cosmetics
 
 import lunarapi.util.Util
-import lunarapi.util.color
 
 val colorPallete = listOf(
 	0xaf87ff,
@@ -220,4 +219,4 @@ val colorPallete = listOf(
 	0x875f5f,
 	0x87afff,
 	0x00d75f
-).map { color { color = it } }
+).map { Util.Color.newBuilder().setColor(it).build() }

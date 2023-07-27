@@ -5,6 +5,7 @@ import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
 import java.lang.instrument.ClassFileTransformer
 import java.security.ProtectionDomain
+import kotlin.system.exitProcess
 
 class Transformer(private val patches: List<Patch>): ClassFileTransformer {
     override fun transform(
@@ -13,7 +14,7 @@ class Transformer(private val patches: List<Patch>): ClassFileTransformer {
         classBeingRedefined: Class<*>?,
         protectionDomain: ProtectionDomain?,
         classfileBuffer: ByteArray
-    ): ByteArray? {
+    ): ByteArray? = runCatching {
         val cn = ClassNode()
         val cr = ClassReader(classfileBuffer)
         cr.accept(cn, 0)
@@ -25,5 +26,8 @@ class Transformer(private val patches: List<Patch>): ClassFileTransformer {
         val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
         cn.accept(cw)
         return cw.toByteArray()
+    }.getOrElse {
+        it.printStackTrace()
+        exitProcess(1)
     }
 }

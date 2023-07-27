@@ -9,6 +9,10 @@ message LoginResponse {
   util.Color logo_color = 4;
 }
 
+message UpdateCosmeticSettings {
+  Settings settings = 1;
+}
+
 message Settings {
   repeated int32 active_cosmetic_ids = 1;
   util.Color plus_color = 3;

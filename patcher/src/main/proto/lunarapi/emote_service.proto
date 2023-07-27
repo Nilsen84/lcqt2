@@ -3,6 +3,11 @@ package lunarapi.emote;
 
 message LoginResponse {
   repeated int32 owned_emote_ids = 1;
+  repeated int32 equipped_emote_ids = 2;
+}
+
+message UpdateEquippedEmotes {
+  repeated int32 equipped_emote_ids = 1;
 }
 
 message UseEmoteResponse {

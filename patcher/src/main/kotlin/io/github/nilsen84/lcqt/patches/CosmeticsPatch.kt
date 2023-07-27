@@ -3,6 +3,7 @@ package io.github.nilsen84.lcqt.patches
 import io.github.nilsen84.bytecode_dsl.asm
 import io.github.nilsen84.lcqt.Patch
 import io.github.nilsen84.lcqt.util.*
+import org.objectweb.asm.Handle
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.MethodInsnNode
@@ -41,20 +42,26 @@ class CosmeticsPatch : Patch() {
     }
 
     private fun hookSendMethod(cn: ClassNode, mn: MethodNode) {
-        val init = mn.instructions.first.next<MethodInsnNode> {
-            it.name == "<init>" && it.owner.startsWith("${cn.name}$")
+        val toByteString = mn.instructions.first.next<MethodInsnNode> {
+            it.name == "toByteString"
         }!!
-        mn.instructions.insert(init, asm {
-            dup
-            invokevirtual(init.owner, "lcqt_getMethod", "()Ljava/lang/String;")
-            astore(mn.maxLocals)
-        })
 
-        val send = init.next<MethodInsnNode> { it.name == "send" && it.desc == "([B)V" }!!
-        mn.instructions.insertBefore(send, asm {
-            aload(mn.maxLocals)
+        mn.instructions.insert(toByteString, asm {
+            invokevirtual("com/google/protobuf/ByteString", "toByteArray", "()[B")
+
+            aload(1)
+            invokevirtual("com/google/protobuf/Descriptors\$MethodDescriptor", "getService", "()Lcom/google/protobuf/Descriptors\$ServiceDescriptor;")
+            invokevirtual("com/google/protobuf/Descriptors\$ServiceDescriptor", "getFullName", "()Ljava/lang/String;")
+
+            aload(1)
+            invokevirtual("com/google/protobuf/Descriptors\$MethodDescriptor", "getName", "()Ljava/lang/String;")
+
+            makeConcatWithConstants("(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", "\u0001.\u0001")
+
             swap
+
             invokestatic("io/github/nilsen84/lcqt/cosmetics/Proxy", "onSend", "(Ljava/lang/String;[B)[B")
+            invokestatic("com/google/protobuf/ByteString", "copyFrom", "([B)Lcom/google/protobuf/ByteString;")
         })
     }
 

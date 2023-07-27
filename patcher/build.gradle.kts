@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Nilsen84:kt-bytecode-dsl:v1.0")
+    implementation("com.github.Nilsen84:kt-bytecode-dsl:v1.1")
     implementation("org.ow2.asm:asm-tree:9.4")
     implementation("com.google.protobuf:protobuf-kotlin:3.23.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
@@ -21,14 +21,6 @@ dependencies {
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.23.4"
-    }
-
-    generateProtoTasks {
-        all().configureEach {
-            builtins {
-                register("kotlin")
-            }
-        }
     }
 }
 
@@ -39,6 +31,6 @@ tasks.jar {
         exclude("**/module-info.class")
     }
     manifest.attributes(
-        "Premain-Class" to "io.github.nilsen84.lcqt.PremainKt"
+        "Premain-Class" to "io.github.nilsen84.lcqt.LcqtPatcher"
     )
 }
