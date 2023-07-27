@@ -16,20 +16,9 @@ cp.spawn = function (cmd, args, opts) {
 
     let lcqtOpts = ipcRenderer.sendSync('LCQT_GET_LAUNCH_OPTIONS')
 
-    if (lcqtOpts.jvmArgs) {
-        args = [...lcqtOpts.jvmArgs, ...args]
-    }
-
-    if (lcqtOpts.crackedUsername) {
-        args.push('--username', lcqtOpts.crackedUsername)
-    }
-
     return originalSpawn(
         lcqtOpts.customJvm || cmd,
-        [
-            `-javaagent:${path.join(lcqtOpts.installDir, 'patcher.jar')}=${lcqtOpts.configPath}`,
-            ...args
-        ],
+        [...lcqtOpts.jvmArgs, ...args, ...lcqtOpts.minecraftArgs],
         opts
     )
 }

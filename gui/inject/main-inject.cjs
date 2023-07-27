@@ -84,10 +84,13 @@ module.exports = function() {
 
         event.returnValue = {
             customJvm: config.jvmEnabled && config.customJvm && config.customJvmPath,
-            configPath,
-            installDir,
-            jvmArgs: config.jvmEnabled && parse(config.jvmArgs),
-            crackedUsername: config.crackedEnabled && config.crackedUsername
+            jvmArgs: [
+                `-javaagent:${path.join(installDir, 'patcher.jar')}=${configPath}`,
+                ...config.jvmEnabled ? parse(config.jvmArgs) : []
+            ],
+            minecraftArgs: config.crackedEnabled && config.crackedUsername ? [
+                '--username', config.crackedUsername
+            ] : []
         }
     })
 
