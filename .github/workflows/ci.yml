@@ -21,7 +21,7 @@ jobs:
        
   build:
     needs: [create-release]
-    if: ${{ always() && !failure() && !cancelled() }}
+    if: always() && !failure() && !cancelled()
   
     strategy:
       matrix:
@@ -46,7 +46,7 @@ jobs:
         arguments: assembleDist installDist
 
     - name: Create Windows Installer
-      if: runner.os == 'Windows'
+      if: runner.os == 'Windows' && github.ref_type == 'tag'
       working-directory: installer
       run: iscc installer.iss /DAppVersion=$($env:GITHUB_REF_NAME.Substring(1))      
 
@@ -56,7 +56,7 @@ jobs:
       run: |
         os=$(echo $RUNNER_OS | tr '[:upper:]' '[:lower:]')
         
-        case "os" in
+        case $os in
           windows)
             mv build/distributions/lcqt2.zip windows.zip
             artifacts="windows.zip installer/*.exe";;
