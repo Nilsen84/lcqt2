@@ -4,7 +4,7 @@ use std::{env, io};
 use std::error::Error;
 use std::net::{Ipv4Addr, TcpListener};
 use std::path::{Path};
-use std::process::{Command};
+use std::process::{Command, Stdio};
 use std::string::String;
 
 use serde_json::json;
@@ -48,10 +48,13 @@ fn run() -> Result<(), Box<dyn Error>> {
 
     let port = free_port()?;
 
-    let mut cp = Command::new(lunar_exe)
-        .arg(format!("--inspect={}", port))
-        .spawn()
-        .map_err(|e| format!("failed to start lunar: {}", e))?;
+    let mut cmd = Command::new(&lunar_exe);
+    cmd.arg(format!("--inspect={}", port));
+    #[cfg(not(debug_assertions))]
+    cmd.stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .stdin(Stdio::null());
+    let mut cp = cmd.spawn().map_err(|e| format!("failed to start lunar: {}", e))?;
 
     let res = try {
         let mut debugger = ChromeDebugger::connect(port).map_err(|e| format!("failed to connect debugger: {}", e))?;
