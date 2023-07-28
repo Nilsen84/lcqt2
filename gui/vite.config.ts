@@ -3,7 +3,6 @@ import {svelte} from '@sveltejs/vite-plugin-svelte'
 import asar from '@electron/asar'
 import cp from "child_process";
 import * as esbuild from 'esbuild'
-import {resolve} from 'path'
 
 const gitTag = cp.execFileSync(
     'git',
@@ -28,7 +27,8 @@ const esbuildRendererPlugin = {
                     'child_process'
                 ],
                 loader: {
-                    '.png': 'dataurl'
+                    '.png': 'dataurl',
+                    '.svg': 'dataurl'
                 }
             })
             return {

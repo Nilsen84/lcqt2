@@ -1,4 +1,4 @@
-import syringe from './syringe-solid.png'
+import syringe from './syringe.svg'
 const { ipcRenderer } = require('electron')
 const path = require('path')
 const cp = require('child_process'), originalSpawn = cp.spawn
@@ -46,7 +46,7 @@ function waitForElement(selector) {
 waitForElement("#exit-button").then(exitButton => {
     let clone = exitButton.cloneNode(false)
     clone.id = null
-    clone.innerHTML = `<img src="${syringe}" width="20" height="20"/>`
+    clone.innerHTML = `<img src='${syringe}' width="22" height="22"/>`
     clone.addEventListener('click', () => ipcRenderer.send('LCQT_OPEN_WINDOW'))
     exitButton.parentNode.insertBefore(clone, exitButton)
 })
