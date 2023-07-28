@@ -8,7 +8,7 @@
 Continuation of the original [lunar-client-qt](https://github.com/nilsen84/lunar-client-qt), moved to a new repo because of the complete rewrite and redesign.
 
 
-### Installation
+## Installation
 #### Windows
 Simply download and run the setup exe from the [latest release](https://github.com/nilsen84/lcqt2/releases/latest).
 #### MacOS/Linux
@@ -19,7 +19,7 @@ Simply download and run the setup exe from the [latest release](https://github.c
 > **IMPORTANT:** All 3 files which where inside the tar need to stay together.  
 > You are allowed to move all 3 together, you're also allowed to create symlinks.
 
-### Building
+## Building
 LCQT2 is made up of 3 major components:
 - The injector - responsible for locating the launcher executable and injecting a javascript patch into it
 - The gui - contains the gui opened by pressing the syringe button, also contains the javascript patch used by the injector
