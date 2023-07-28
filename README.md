@@ -1,12 +1,13 @@
 <h1>
     Lunar Client Qt 2
     <a href="https://discord.gg/mjvm8PzB2u">
-        <img src=".github/assets/discord.svg" height="32" style="vertical-align: -5px;"/>
+        <img src=".github/assets/discord.svg" alt="discord" height="32" style="vertical-align: -5px;"/>
     </a>
 </h1>
 
 Continuation of the original [lunar-client-qt](https://github.com/nilsen84/lunar-client-qt), moved to a new repo because of the complete rewrite and redesign.
 
+<img src=".github/assets/screenshot.png" width="600" alt="screenshot of lcqt">
 
 ## Installation
 #### Windows
