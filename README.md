@@ -1,7 +1,7 @@
 <h1>
     Lunar Client Qt 2
     <a href="https://discord.gg/mjvm8PzB2u">
-        <img src=".github/assets/discord.svg" height="32" hspace="4" style="vertical-align: -5px;"/>
+        <img src=".github/assets/discord.svg" height="32" style="vertical-align: -5px;"/>
     </a>
 </h1>
 
