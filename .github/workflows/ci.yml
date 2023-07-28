@@ -21,6 +21,7 @@ jobs:
        
   build:
     needs: [create-release]
+    if: ${{ always() && !failure() && !cancelled() }}
   
     strategy:
       matrix:
