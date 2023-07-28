@@ -1,7 +1,7 @@
 import renderer from './renderer-inject.js'
 
 module.exports = function() {
-    const { app, ipcMain, BrowserWindow, webContents, dialog } = require('electron')
+    const { app, ipcMain, BrowserWindow, webContents, dialog, shell } = require('electron')
     const path = require('path')
     const fs = require('fs')
     const parse = require('shell-quote/parse')
@@ -13,7 +13,7 @@ module.exports = function() {
     https.get(
         {
             hostname: 'api.github.com',
-            path: '/repos/Nilsen84/lunar-client-qt/releases/latest',
+            path: '/repos/Nilsen84/lcqt2/releases/latest',
             headers: {
                 'User-Agent': 'Mozilla/5.0'
             }
@@ -32,12 +32,17 @@ module.exports = function() {
             res.on('end', () => {
                 let json = JSON.parse(Buffer.concat(body).toString())
                 if (semver.lt(__APP_VERSION__, json.tag_name)) {
-                    dialog.showMessageBoxSync({
+                    let res = dialog.showMessageBoxSync({
                         title: 'LCQT Update',
                         message: 'A new version of Lunar Client Qt is available: ' +
-                            `${__APP_VERSION__} -> ${json.tag_name}\n` +
-                            `${json.html_url}`
+                            `${__APP_VERSION__} -> ${json.tag_name}`,
+                        buttons: ['Open URL', 'OK'],
+                        noLink: true
                     })
+
+                    if(res === 0) {
+                        shell.openExternal(json.html_url)
+                    }
                 }
             })
         }
