@@ -4,11 +4,17 @@ import asar from '@electron/asar'
 import cp from "child_process";
 import * as esbuild from 'esbuild'
 
-const gitTag = cp.execFileSync(
-    'git',
-    ['describe', '--tags', '--abbrev=0', '--match=v*'],
-    {encoding: 'ascii'}
-).trim()
+const gitTag = (() => {
+    try {
+        return cp.execFileSync(
+            'git',
+            ['describe', '--tags', '--abbrev=0', '--match=v*'],
+            {encoding: 'ascii'}
+        ).trim()
+    }catch {
+        return "v0.0.0"
+    }
+})()
 
 const esbuildRendererPlugin = {
     name: 'renderer',
