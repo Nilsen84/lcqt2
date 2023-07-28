@@ -97,12 +97,12 @@
     <Module name="Freelook Enable" bind:enabled={config.freelookEnabled}></Module>
 
     <Module name="JVM" bind:enabled={config.jvmEnabled}>
-        <div class="flex flex-row items-center gap-2">
+        <div class="flex flex-row items-center gap-4">
             <Switch bind:enabled={config.customJvm}></Switch>
             <nobr>Custom JVM</nobr>
             <input
                     type="text"
-                    class="ml-4 p-1 outline-none w-96 flex-grow"
+                    class="p-1 outline-none w-96 flex-grow"
                     placeholder="C:\Path\To\Java Installation\bin\javaw.exe"
                     spellcheck="false"
                     disabled="{!config.customJvm}"
@@ -113,7 +113,7 @@
         <div class="text-center mt-4">JVM Args</div>
 
         <textarea
-                class="resize-none outline-none p-2 w-full break-all mt-1"
+                class="resize-none outline-none p-2 w-full break-all mt-2"
                 spellcheck="false"
                 rows="5"
                 bind:value={config.jvmArgs}
