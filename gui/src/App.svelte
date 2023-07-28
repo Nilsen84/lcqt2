@@ -90,7 +90,7 @@
     <Module name="Cracked Account" bind:enabled={config.crackedEnabled}>
         <div class="flex flex-row w-full justify-between items-center">
             Username:
-            <input type="text" class="p-1 outline-none" spellcheck="false" placeholder="Player999" bind:value={config.crackedUsername}/>
+            <input type="text" class="p-1 outline-none rounded-lg" spellcheck="false" placeholder="Player999" bind:value={config.crackedUsername}/>
         </div>
     </Module>
 
@@ -102,7 +102,7 @@
             <nobr>Custom JVM</nobr>
             <input
                     type="text"
-                    class="p-1 outline-none w-96 flex-grow"
+                    class="p-1 outline-none w-96 flex-grow text-base rounded-lg"
                     placeholder="C:\Path\To\Java Installation\bin\javaw.exe"
                     spellcheck="false"
                     disabled="{!config.customJvm}"
@@ -113,7 +113,7 @@
         <div class="text-center mt-4">JVM Args</div>
 
         <textarea
-                class="resize-none outline-none p-2 w-full break-all mt-2"
+                class="resize-none outline-none p-2 w-full break-all mt-2 rounded-lg"
                 spellcheck="false"
                 rows="5"
                 bind:value={config.jvmArgs}
