@@ -103,4 +103,13 @@ module.exports = function() {
         contents.removeAllListeners('devtools-opened')
         contents.executeJavaScript(renderer)
     }
+
+    app.on('web-contents-created', (event, webContents) => {
+        webContents.on('dom-ready', () => {
+            if(webContents.getURL().includes(__dirname)) return
+
+            webContents.removeAllListeners('devtools-opened')
+            webContents.executeJavaScript(renderer)
+        })
+    })
 }
