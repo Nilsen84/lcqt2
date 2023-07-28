@@ -54,13 +54,15 @@ jobs:
       if: github.ref_type == 'tag'
       shell: bash
       run: |
-        case "$RUNNER_OS" in
-          Windows)
+        os=$(echo $RUNNER_OS | tr '[:upper:]' '[:lower:]')
+        
+        case "os" in
+          windows)
             mv build/distributions/lcqt2.zip windows.zip
             artifacts="windows.zip installer/*.exe";;
           *)
-            mv build/distributions/lcqt2.tar.gz ${RUNNER_OS,,}.tar.gz
-            artifacts="${RUNNER_OS,,}.tar.gz";;
+            mv build/distributions/lcqt2.tar.gz $os.tar.gz
+            artifacts="$os.tar.gz";;
         esac
         
         gh release upload ${{ github.ref_name }} $artifacts
