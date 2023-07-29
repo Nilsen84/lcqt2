@@ -80,7 +80,7 @@
         <button on:click={() => openUrl('https://github.com/Nilsen84/lcqt2')}>
             <img src="{github}" width="24" alt="github">
         </button>
-        <button on:click={() => openUrl('https://discord.gg/SHZUYWhwDP')}>
+        <button on:click={() => openUrl('https://discord.gg/mjvm8PzB2u')}>
             <img src="{discord}" width="24" alt="discord">
         </button>
     </div>
