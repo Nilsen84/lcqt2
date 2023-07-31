@@ -1,11 +1,14 @@
 #![feature(try_blocks)]
+#![allow(dead_code)]
 
-use std::{env, io};
+use std::{env, io, thread};
 use std::error::Error;
+use std::io::{BufRead, BufReader, ErrorKind};
 use std::net::{Ipv4Addr, TcpListener};
 use std::path::{Path};
-use std::process::{Command, Stdio};
+use std::process::{Child, Command, Stdio};
 use std::string::String;
+use std::time::Duration;
 
 use serde_json::json;
 
@@ -38,6 +41,16 @@ fn find_lunar_executable() -> Result<String, String> {
         .map(|p| p.clone())
 }
 
+fn wait_for_websocket_url(child: &mut Child) -> io::Result<String> {
+    let reader = BufReader::new(child.stderr.take().unwrap());
+    for line in reader.lines() {
+        if let Some(url) = line?.strip_prefix("Debugger listening on ") {
+            return Ok(url.into())
+        }
+    }
+    Err(io::Error::new(ErrorKind::UnexpectedEof, "'Debugger listening on ' was never printed"))
+}
+
 fn run() -> Result<(), Box<dyn Error>> {
     let lunar_exe = match env::args().nth(1) {
         Some(arg) => arg,
@@ -50,14 +63,19 @@ fn run() -> Result<(), Box<dyn Error>> {
 
     let mut cmd = Command::new(&lunar_exe);
     cmd.arg(format!("--inspect={}", port));
+    cmd.stdin(Stdio::null());
+    cmd.stderr(Stdio::piped());
     #[cfg(not(debug_assertions))]
-    cmd.stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .stdin(Stdio::null());
+    cmd.stdout(Stdio::null());
     let mut cp = cmd.spawn().map_err(|e| format!("failed to start lunar: {}", e))?;
 
     let res = try {
-        let mut debugger = ChromeDebugger::connect(port).map_err(|e| format!("failed to connect debugger: {}", e))?;
+        let url = wait_for_websocket_url(&mut cp)?;
+        println!("[LCQT] Connecting to {url}");
+        let mut debugger = ChromeDebugger::connect_url(url).map_err(|e| format!("failed to connect debugger: {}", e))?;
+
+        // otherwise you get "ReferenceError: require is not defined"
+        thread::sleep(Duration::from_millis(1000));
 
         let payload = format!(
             "require(`${{{}}}/gui.asar/main-inject.js`)()",
