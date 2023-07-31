@@ -24,6 +24,10 @@ protobuf {
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 tasks.jar {
     exclude("*.proto")
     includeEmptyDirs = false
