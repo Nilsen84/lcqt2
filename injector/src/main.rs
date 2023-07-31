@@ -62,6 +62,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     let port = free_port()?;
 
     let mut cmd = Command::new(&lunar_exe);
+    cmd.env("__GL_THREADED_OPTIMIZATIONS", "0");
     cmd.arg(format!("--inspect={}", port));
     cmd.stdin(Stdio::null());
     cmd.stderr(Stdio::piped());
