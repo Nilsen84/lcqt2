@@ -26,8 +26,8 @@ fn find_lunar_executable() -> Result<String, String> {
             let localappdata = env::var("localappdata").or(Err("%localappdata% not defined"))?;
 
             vec![
-                localappdata.clone() + r"\Programs\launcher\Lunar Client.exe",
-                localappdata + r"\Programs\lunarclient\Lunar Client.exe"
+                format!(r"{localappdata}\Programs\launcher\Lunar Client.exe"),
+                format!(r"{localappdata}\Programs\lunarclient\Lunar Client.exe")
             ]
         }
         "macos" => vec!["/Applications/Lunar Client.app/Contents/MacOS/Lunar Client".into()],
