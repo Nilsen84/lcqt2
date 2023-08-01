@@ -13,6 +13,8 @@
 
         freelookEnabled: boolean,
 
+        noHitDelayEnabled: boolean,
+
         jvmEnabled: boolean,
         customJvm: boolean,
         customJvmPath: string,
@@ -26,6 +28,8 @@
         crackedUsername: '',
 
         freelookEnabled: false,
+
+        noHitDelayEnabled: false,
 
         jvmEnabled: true,
         customJvm: false,
@@ -95,6 +99,8 @@
     </Module>
 
     <Module name="Freelook Enable" bind:enabled={config.freelookEnabled}></Module>
+
+    <Module name="NoHitDelay" bind:enabled={config.noHitDelayEnabled}></Module>
 
     <Module name="JVM" bind:enabled={config.jvmEnabled}>
         <div class="flex flex-row items-center gap-4">

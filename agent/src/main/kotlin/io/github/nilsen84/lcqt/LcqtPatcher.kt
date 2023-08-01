@@ -24,11 +24,11 @@ object LcqtPatcher {
         if (config.cosmeticsEnabled) patches += CosmeticsPatch()
         if (config.freelookEnabled) patches += FreelookPatch()
         if (config.crackedEnabled) patches += CrackedAccountPatch()
+        if (config.noHitDelayEnabled) patches += NoHitDelayPatch()
 
         println("RUNNING LCQT WITH PATCHES: " + patches.joinToString {
             it::class.simpleName!!
         })
-
 
         inst.addTransformer(Transformer(patches))
     }
