@@ -19,7 +19,7 @@ val dist by configurations.registering {
 }
 
 dependencies {
-    components(project(":patcher")) {
+    components(project(":agent")) {
         isTransitive = false
     }
     components(project(":injector"))

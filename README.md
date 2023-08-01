@@ -29,7 +29,7 @@ Simply download and run the setup exe from the [latest release](https://github.c
 LCQT2 is made up of 3 major components:
 - The injector - responsible for locating the launcher executable and injecting a javascript patch into it
 - The gui - contains the gui opened by pressing the syringe button, also contains the javascript patch used by the injector
-- The patcher - the java agent which implements all game patches
+- The agent - java agent which implements all game patches
 
 In order for lcqt to work properly all 3 components need to be built into the same directory.
 
