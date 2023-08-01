@@ -42,11 +42,9 @@ tasks.clean {
 }
 
 configurations.create("asar") {
+    isCanBeConsumed = true
     isCanBeResolved = false
-}
-
-artifacts {
-    add("asar", file("out/gui.asar")){
+    outgoing.artifact(file("out/gui.asar")) {
         builtBy(buildGui)
     }
 }
