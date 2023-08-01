@@ -1,11 +1,9 @@
 package io.github.nilsen84.lcqt
 
-import io.github.nilsen84.lcqt.patches.ClassloaderPatch
-import io.github.nilsen84.lcqt.patches.CosmeticsPatch
-import io.github.nilsen84.lcqt.patches.CrackedAccountPatch
-import io.github.nilsen84.lcqt.patches.FreelookPatch
+import io.github.nilsen84.lcqt.patches.*
 import kotlinx.serialization.json.Json
 import java.io.File
+import java.io.FileNotFoundException
 import java.lang.instrument.Instrumentation
 
 object LcqtPatcher {
@@ -16,7 +14,11 @@ object LcqtPatcher {
     @JvmStatic
     fun premain(configPath: String, inst: Instrumentation) {
         configFile = File(configPath)
-        config = JSON.decodeFromString<Config>(File(configPath).readText())
+        config = try {
+            JSON.decodeFromString<Config>(File(configPath).readText())
+        } catch (e: FileNotFoundException) {
+            Config()
+        }
 
         val patches = mutableListOf<Patch>(ClassloaderPatch())
         if (config.cosmeticsEnabled) patches += CosmeticsPatch()
