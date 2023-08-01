@@ -21,6 +21,8 @@ val buildGui by tasks.registering(Exec::class) {
     group = "build"
     commandLine(npm, "run", "build")
 
+    //recompile if tag changes
+    inputs.dir("../.git/refs/tags")
     inputs.dir("src")
     inputs.dir("inject")
     inputs.dir("node_modules")
