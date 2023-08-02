@@ -13,6 +13,7 @@ Continuation of the original [lunar-client-qt](https://github.com/nilsen84/lunar
 #### Windows
 Simply download and run the setup exe from the [latest release](https://github.com/nilsen84/lcqt2/releases/latest).
 #### MacOS/Linux
+> If you are using Linux, be sure to have the `Lunar Client-X.AppImage` renamed to `lunarclient` in `/usr/bin/`.
 1. Download the macos/linux.tar.gz file from the [newest release](https://github.com/nilsen84/lcqt2/releases/latest).
 2. Extract it anywhere
 3. Run the `Lunar Client Qt` executable
