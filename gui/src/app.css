@@ -6,15 +6,3 @@ body * {
     font-family: Inter, sans-serif;
     user-select: none;
 }
-
-input[type=text], textarea, .button {
-    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-*:disabled {
-    background-color: #f1f1f1;
-}
-
-*::-webkit-scrollbar {
-    display: none;
-}

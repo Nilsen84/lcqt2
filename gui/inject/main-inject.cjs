@@ -67,8 +67,8 @@ module.exports = function() {
             parent: mainWin,
             modal: true,
             center: true,
-            width: 650,
-            height: 500,
+            width: 900,
+            height: 600,
             resizable: true,
             webPreferences: {
                 nodeIntegration: true,
@@ -88,10 +88,10 @@ module.exports = function() {
         let config = readConfigSync()
 
         event.returnValue = {
-            customJvm: config.jvmEnabled && config.customJvm && config.customJvmPath,
+            customJvm: config.customJvmEnabled && config.customJvm,
             jvmArgs: [
                 `-javaagent:${path.join(installDir, 'agent.jar')}=${configPath}`,
-                ...config.jvmEnabled ? parse(config.jvmArgs) : []
+                ...config.jvmArgsEnabled ? parse(config.jvmArgs) : []
             ],
             minecraftArgs: config.crackedEnabled && config.crackedUsername ? [
                 '--username', config.crackedUsername

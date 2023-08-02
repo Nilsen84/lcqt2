@@ -1,25 +1,24 @@
 <script lang="ts">
-    import Module from "./components/Module.svelte";
-    import Switch from "./components/Switch.svelte";
+    import Modules from "./pages/Modules.svelte";
+    import Settings from "./pages/Settings.svelte";
     import github from "./assets/github.svg"
     import discord from "./assets/discord.svg"
+    import type { Config } from "./config";
+
     const dev: boolean = import.meta.env.DEV
 
-    type Config = {
-        cosmeticsEnabled: boolean,
+    let pages = [
+        {
+            name: 'Modules',
+            component: Modules
+        },
+        {
+            name: 'Settings',
+            component: Settings
+        }
+    ]
 
-        crackedEnabled: boolean,
-        crackedUsername: string,
-
-        freelookEnabled: boolean,
-
-        noHitDelayEnabled: boolean,
-
-        jvmEnabled: boolean,
-        customJvm: boolean,
-        customJvmPath: string,
-        jvmArgs: string
-    }
+    let selected = pages[0]
 
     let config: Config = {
         cosmeticsEnabled: false,
@@ -31,12 +30,12 @@
 
         noHitDelayEnabled: false,
 
-        jvmEnabled: true,
-        customJvm: false,
-        customJvmPath: '',
+        customJvmEnabled: false,
+        customJvm: '',
+
+        jvmArgsEnabled: true,
         jvmArgs: '',
     }
-
 
     if(!dev) {
         const configPath: string = window.process.argv.pop()
@@ -46,6 +45,10 @@
             config = {...config, ...JSON.parse(fs.readFileSync(configPath, 'utf8'))}
         }catch(e) {
             console.error(e)
+        }
+
+        if(typeof(config.customJvm) == 'boolean') {
+            config.customJvm = ''
         }
 
         window.onchange = () => {
@@ -67,62 +70,34 @@
 </script>
 
 <svelte:head>
-    <title>Lunar Client Qt {__APP_VERSION__}</title>
+    <title>Lunar Client Qt v2.0.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<main
-        class="flex flex-col gap-4 p-5 bg-[#f8f9fa] items-stretch fixed w-full h-full overflow-y-scroll"
-        class:max-w-[650px]={dev}
-        class:max-h-[500px]={dev}
->
-
-    <div class="flex flex-row text-2xl font-normal items-center gap-2 justify-center">
-        Lunar Client Qt {__APP_VERSION__.slice(1)}
-        <button on:click={() => openUrl('https://github.com/Nilsen84/lcqt2')}>
-            <img src="{github}" width="24" alt="github">
-        </button>
-        <button on:click={() => openUrl('https://discord.gg/mjvm8PzB2u')}>
-            <img src="{discord}" width="24" alt="discord">
-        </button>
+<main class="{dev ? 'w-[900px] h-[600px]' : 'w-screen h-screen'} bg-black flex">
+    <div class="h-full w-36 bg-white flex flex-col items-stretch text-center">
+        <div class="flex p-3 gap-1 justify-center text-lg">
+            LCQT
+            <button on:click={() => openUrl('https://github.com/Nilsen84/lcqt2')}>
+                <img src="{github}" width="20" alt="github">
+            </button>
+            <button on:click={() => openUrl('https://discord.gg/mjvm8PzB2u')}>
+                <img src="{discord}" width="20" alt="discord">
+            </button>
+        </div>
+        <hr>
+        {#each pages as page}
+            <label class="cursor-pointer">
+                <input type="radio" class="peer hidden" value={page} bind:group={selected}>
+                <div class="py-3 peer-checked:bg-blue-500">
+                    {page.name}
+                </div>
+            </label>
+        {/each}
     </div>
-
-    <Module name="Cosmetics Unlocker" bind:enabled={config.cosmeticsEnabled}></Module>
-
-    <Module name="Cracked Account" bind:enabled={config.crackedEnabled}>
-        <div class="flex flex-row w-full justify-between items-center">
-            Username:
-            <input type="text" class="p-1 outline-none rounded-lg" spellcheck="false" placeholder="Player999" bind:value={config.crackedUsername}/>
-        </div>
-    </Module>
-
-    <Module name="Freelook Enable" bind:enabled={config.freelookEnabled}></Module>
-
-    <Module name="NoHitDelay" bind:enabled={config.noHitDelayEnabled}></Module>
-
-    <Module name="JVM" bind:enabled={config.jvmEnabled}>
-        <div class="flex flex-row items-center gap-4">
-            <Switch bind:enabled={config.customJvm}></Switch>
-            <nobr>Custom JVM</nobr>
-            <input
-                    type="text"
-                    class="p-1 outline-none w-96 flex-grow text-base rounded-lg"
-                    placeholder="C:\Path\To\Java Installation\bin\javaw.exe"
-                    spellcheck="false"
-                    disabled="{!config.customJvm}"
-                    bind:value={config.customJvmPath}
-            >
-        </div>
-
-        <div class="text-center mt-4">JVM Args</div>
-
-        <textarea
-                class="resize-none outline-none p-2 w-full break-all mt-2 rounded-lg"
-                spellcheck="false"
-                rows="5"
-                bind:value={config.jvmArgs}
-        />
-    </Module>
+    <div class="bg-gray-200 flex-grow">
+        <svelte:component this={selected.component} config={config}></svelte:component>
+    </div>
 </main>
