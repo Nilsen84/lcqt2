@@ -16,9 +16,15 @@ cp.spawn = function (cmd, args, opts) {
 
     let lcqtOpts = ipcRenderer.sendSync('LCQT_GET_LAUNCH_OPTIONS')
 
+    args.splice(
+        Math.max(0, args.indexOf('-cp')),
+        0,
+        ...lcqtOpts.jvmArgs
+    )
+
     return originalSpawn(
         lcqtOpts.customJvm || cmd,
-        [...lcqtOpts.jvmArgs, ...args, ...lcqtOpts.minecraftArgs],
+        [...args, ...lcqtOpts.minecraftArgs],
         opts
     )
 }
