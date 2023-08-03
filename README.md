@@ -15,7 +15,17 @@
   **Q: Can I be banned for using this?** </br>
   A: Lets break this into 2 types of bans: </br>
   - Lunar: While LCQT is *theoretically* detectable on lunars end, as of right now they do not issue client bans. </br>
-  - Hypixel / Other Servers: LCQT does not send any information to the server. As long as you don't abuse any disabled mods (e.g chat macros) you will not be banned. 
+  - Hypixel / Other Servers: LCQT does not send any information to the server. As long as you don't abuse any disabled mods (e.g chat macros) you will not be banned.
+
+  **Q: What patches are included in the lcqt2 agent?** </br>
+  A: In case this goes out of date you can find them [here](https://github.com/Nilsen84/lcqt2/tree/master/agent/src/main/kotlin/io/github/nilsen84/lcqt/patches).  </br>
+    *However:*  </br>
+  - Cosmetics Unlocker: Unlocks cosmetics for paid Minecraft users.
+  - Cracked Account: Allows Cracked Accounts to be used.
+  - FPS Spoof: Spoof your FPS.
+  - Freelook: Re-enables Freelook and AutoTextHotkey on servers.
+  - NoHitDelay: Removes delay between hits.
+  - Debug: Enables "Staff" Mods (Currently only X-Ray).
   
   **Q: Why isn't cosmetics working on a cracked account?** </br>
   A: Because of the way the cosmetics unlocker is implemented you have to be connected to lunars servers for it to work. </br>
