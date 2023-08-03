@@ -35,6 +35,8 @@
 
         jvmArgsEnabled: true,
         jvmArgs: '',
+
+        debugModsEnabled: false,
     }
 
     if(!dev) {

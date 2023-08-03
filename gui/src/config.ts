@@ -12,5 +12,7 @@ export type Config = {
     customJvm: string,
 
     jvmArgsEnabled: boolean,
-    jvmArgs: string
+    jvmArgs: string,
+
+    debugModsEnabled: boolean,
 }

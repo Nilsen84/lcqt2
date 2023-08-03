@@ -8,4 +8,5 @@ class Config {
     val freelookEnabled: Boolean = false
     val crackedEnabled: Boolean = false
     val noHitDelayEnabled: Boolean = false
+    val debugModsEnabled: Boolean = false
 }

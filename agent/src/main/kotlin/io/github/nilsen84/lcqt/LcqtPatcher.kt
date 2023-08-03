@@ -25,6 +25,7 @@ object LcqtPatcher {
         if (config.freelookEnabled) patches += FreelookPatch()
         if (config.crackedEnabled) patches += CrackedAccountPatch()
         if (config.noHitDelayEnabled) patches += NoHitDelayPatch()
+        if (config.debugModsEnabled) patches += DebugModsPatch()
 
         println("RUNNING LCQT WITH PATCHES: " + patches.joinToString {
             it::class.simpleName!!

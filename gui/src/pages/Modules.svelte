@@ -29,6 +29,10 @@
         {
             name: 'NoHitDelay',
             key: 'noHitDelayEnabled',
+        },
+        {
+            name: 'Debug + Staff Mods',
+            key: 'debugModsEnabled'
         }
     ]
 
