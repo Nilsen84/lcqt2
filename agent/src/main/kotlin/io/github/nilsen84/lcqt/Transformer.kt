@@ -15,8 +15,6 @@ class Transformer(private val patches: List<Patch>): ClassFileTransformer {
         protectionDomain: ProtectionDomain?,
         classfileBuffer: ByteArray
     ): ByteArray? = runCatching {
-        if(!className.startsWith("com/moonsworth/lunar/")) return null
-
         val cn = ClassNode()
         val cr = ClassReader(classfileBuffer)
         cr.accept(cn, 0)
