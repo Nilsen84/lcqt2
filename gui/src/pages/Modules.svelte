@@ -15,8 +15,8 @@
             key: 'crackedEnabled',
             settings: [
                 {
-                    name: 'Username',
                     type: 'text',
+                    name: 'Username',
                     placeholder: 'Player999',
                     key: 'crackedUsername',
                 }
@@ -33,6 +33,18 @@
         {
             name: 'Debug + Staff Mods',
             key: 'debugModsEnabled'
+        },
+        {
+            name: 'FPS Spoof',
+            key: 'fpsSpoofEnabled',
+            settings: [{
+                type: 'slider',
+                name: 'Multiplier',
+                min: 0.5,
+                max: 10.0,
+                step: 0.1,
+                key: 'fpsSpoofMultiplier'
+            }]
         }
     ]
 
@@ -72,6 +84,21 @@
                             bind:value={config[setting.key]}
                     >
                 </div>
+            {:else if setting.type === 'slider'}
+                <div class="flex justify-between items-center gap-5 text-lg">
+                    {setting.name}:
+                    <div class="flex text-sm gap-2 relative">
+                        {config[setting.key].toFixed(1)}
+                        <input
+                                type="range"
+                                min={setting.min}
+                                max={setting.max}
+                                step={setting.step}
+                                bind:value={config[setting.key]}
+                                class="w-96"
+                        >
+                    </div>
+                </div>
             {/if}
         {/each}
     </div>
@@ -96,16 +123,33 @@
             </span>
         {/each}
     </div>
-
-    <style>
-        #container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 200px;
-        }
-
-        .module {
-            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-    </style>
 {/if}
+
+<style>
+    #container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 200px;
+    }
+
+    input[type="range"] {
+        appearance: none;
+        outline: none;
+        background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+        @apply bg-gray-400 rounded;
+        height: 8px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        margin-top: -4px;
+        @apply rounded-full bg-blue-400;
+    }
+
+
+    .module {
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+</style>

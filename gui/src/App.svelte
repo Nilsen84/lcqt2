@@ -37,6 +37,9 @@
         jvmArgs: '',
 
         debugModsEnabled: false,
+
+        fpsSpoofEnabled: false,
+        fpsSpoofMultiplier: 1.0
     }
 
     if(!dev) {

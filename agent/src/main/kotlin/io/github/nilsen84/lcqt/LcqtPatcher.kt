@@ -9,6 +9,8 @@ import java.lang.instrument.Instrumentation
 object LcqtPatcher {
     val JSON = Json { ignoreUnknownKeys = true; prettyPrint = true }
     lateinit var configFile: File private set
+
+    @JvmStatic
     lateinit var config: Config private set
 
     @JvmStatic
@@ -26,6 +28,7 @@ object LcqtPatcher {
         if (config.crackedEnabled) patches += CrackedAccountPatch()
         if (config.noHitDelayEnabled) patches += NoHitDelayPatch()
         if (config.debugModsEnabled) patches += DebugModsPatch()
+        if (config.fpsSpoofEnabled) patches += FPSSpoofPatch()
 
         println("RUNNING LCQT WITH PATCHES: " + patches.joinToString {
             it::class.simpleName!!

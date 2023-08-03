@@ -15,4 +15,7 @@ export type Config = {
     jvmArgs: string,
 
     debugModsEnabled: boolean,
+
+    fpsSpoofEnabled: boolean,
+    fpsSpoofMultiplier: number
 }

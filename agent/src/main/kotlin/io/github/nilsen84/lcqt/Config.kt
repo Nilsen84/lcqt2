@@ -9,4 +9,7 @@ class Config {
     val crackedEnabled: Boolean = false
     val noHitDelayEnabled: Boolean = false
     val debugModsEnabled: Boolean = false
+
+    val fpsSpoofEnabled: Boolean = false
+    val fpsSpoofMultiplier: Float = 1.0f
 }
