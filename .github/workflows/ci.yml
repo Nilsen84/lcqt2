@@ -58,11 +58,11 @@ jobs:
         
         case $os in
           windows)
-            mv build/distributions/lcqt2.zip windows.zip
-            artifacts="windows.zip installer/*.exe";;
+            mv build/distributions/lcqt2.zip windows-portable.zip
+            artifacts="windows-portable.zip installer/*.exe";;
           *)
-            mv build/distributions/lcqt2.tar.gz $os.tar.gz
-            artifacts="$os.tar.gz";;
+            mv build/distributions/lcqt2.tar.gz $os-portable.tar.gz
+            artifacts="$os-portable.tar.gz";;
         esac
         
         gh release upload ${{ github.ref_name }} $artifacts
