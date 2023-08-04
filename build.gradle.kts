@@ -19,7 +19,7 @@ val dist by configurations.registering {
 }
 
 dependencies {
-    components(project(":agent", "shadowRuntimeElements"))
+    components(project(":agent", "shadow"))
     components(project(":injector"))
     components(project(":gui", "asar"))
 }
