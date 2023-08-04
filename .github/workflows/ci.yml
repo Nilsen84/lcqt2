@@ -37,11 +37,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
+
     - uses: dtolnay/rust-toolchain@nightly
+
+    - uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.7.0
+      env:
+        SCCACHE_GHA_ENABLED: "true"
+        RUSTC_WRAPPER: "sccache"
       with:
         arguments: assembleDist installDist
 
