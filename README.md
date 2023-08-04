@@ -26,6 +26,8 @@
   - Freelook: Re-enables Freelook and AutoTextHotkey on servers.
   - NoHitDelay: Removes delay between hits.
   - Debug: Enables "Staff" Mods (Currently only X-Ray).
+  - *Panorama Maker: **Internal Use Only**
+  - *GeckoLib Debug Mod: **Internal Use Only**
   
   **Q: Why isn't cosmetics working on a cracked account?** </br>
   A: Because of the way the cosmetics unlocker is implemented you have to be connected to lunars servers for it to work. </br>
