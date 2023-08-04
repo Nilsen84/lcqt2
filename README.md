@@ -17,7 +17,7 @@ Simply download and run the setup exe from the [latest release](https://github.c
 Use the AUR package [lunar-client-qt2](https://aur.archlinux.org/packages/lunar-client-qt2)
 
 #### MacOS/Linux
-> If you are using Linux, be sure to have the `Lunar Client-X.AppImage` renamed to `lunarclient` in `/usr/bin/`.
+> If you are using Linux, be sure to have the `Lunar Client-X.AppImage` renamed to `lunarclient` in `/usr/bin/`. Alternatively, run lcqt2 with `Lunar Client Qt ~/path/to/lunar/appimage`.
 1. Download the macos/linux.tar.gz file from the [newest release](https://github.com/nilsen84/lcqt2/releases/latest).
 2. Extract it anywhere
 3. Run the `Lunar Client Qt` executable
