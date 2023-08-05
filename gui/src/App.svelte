@@ -96,7 +96,7 @@
         {#each pages as page}
             <label class="cursor-pointer">
                 <input type="radio" class="peer hidden" value={page} bind:group={selected}>
-                <div class="py-3 peer-checked:bg-blue-500">
+                <div class="py-3 peer-checked:bg-blue-500 peer-checked:text-white">
                     {page.name}
                 </div>
             </label>
