@@ -79,6 +79,7 @@
 </script>
 
 <svelte:head>
+    <!-- svelte-ignore missing-declaration -->
     <title>Lunar Client Qt {__APP_VERSION__}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

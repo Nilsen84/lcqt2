@@ -3,7 +3,6 @@ package io.github.nilsen84.lcqt.patches
 import io.github.nilsen84.bytecode_dsl.asm
 import io.github.nilsen84.lcqt.Patch
 import io.github.nilsen84.lcqt.util.*
-import org.objectweb.asm.Handle
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.MethodInsnNode
@@ -41,6 +40,7 @@ class CosmeticsPatch : Patch() {
         return false
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun hookSendMethod(cn: ClassNode, mn: MethodNode) {
         val toByteString = mn.instructions.first.next<MethodInsnNode> {
             it.name == "toByteString"

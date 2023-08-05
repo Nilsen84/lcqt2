@@ -13,14 +13,14 @@ repositories {
 }
 
 sourceSets {
-    val compileOnly by creating {
+    val declarations by creating {
         java {
-            srcDir("src/compileOnly")
+            srcDir("src/declarations")
         }
     }
 
     main {
-        compileClasspath += compileOnly.output
+        compileClasspath += declarations.output
     }
 }
 

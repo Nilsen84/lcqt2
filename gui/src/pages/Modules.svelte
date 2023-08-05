@@ -73,7 +73,7 @@
     <div class="bg-white h-[53px] flex items-center text-lg">
         <div class="flex-1">
             <button class="p-2" on:click={() => selectedModule = null}>
-                <img class="opacity-70" src={circleLeft} width="30"/>
+                <img class="opacity-70" src={circleLeft} width="30" alt="back"/>
             </button>
         </div>
         {selectedModule.name}
