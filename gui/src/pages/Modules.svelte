@@ -34,6 +34,37 @@
             name: 'Debug + Staff Mods',
             key: 'debugModsEnabled'
         },
+        /*{ debug object just for testing everything works fine
+            name: 'FPS Spoof',
+            key: 'fpsSpoofEnabled',
+            settings: [{
+                type: 'slider',
+                name: 'Multiplier',
+                min: 0.5,
+                max: 10.0,
+                step: 0.1,
+                key: 'fpsSpoofMultiplier'
+            },
+                {
+                    type: 'text',
+                    name: 'Username',
+                    placeholder: 'Player999',
+                    key: 'crackedUsername',
+                },{
+                    type: 'slider',
+                    name: 'Multiplier',
+                    min: 0.5,
+                    max: 10.0,
+                    step: 0.1,
+                    key: 'fpsSpoofMultiplier'
+                },
+                {
+                    type: "combo",
+                    name: "Test",
+                    values: ["Hii", "asdasdas"],
+                    key: "asd"
+                }]
+        },*/
         {
             name: 'FPS Spoof',
             key: 'fpsSpoofEnabled',
@@ -45,7 +76,7 @@
                 step: 0.1,
                 key: 'fpsSpoofMultiplier'
             }]
-        }
+        },
     ]
 
     let selectedModule = null
@@ -55,7 +86,7 @@
 
         document.addEventListener('keydown', k => {
             if (k.key === 'Escape') selectedModule = null
-        }, { signal: controller.signal })
+        }, {signal: controller.signal})
 
         return () => controller.abort()
     })
@@ -74,7 +105,7 @@
     <div class="flex flex-col p-5">
         {#each selectedModule.settings as setting}
             {#if setting.type === 'text'}
-                <div class="flex justify-between items-center gap-5 text-lg">
+                <div class="flex justify-between items-center mb-5 gap-5 text-lg">
                     {setting.name}:
                     <input
                             type="text"
@@ -85,7 +116,7 @@
                     >
                 </div>
             {:else if setting.type === 'slider'}
-                <div class="flex justify-between items-center gap-5 text-lg">
+                <div class="flex justify-between items-center mb-5 gap-5 text-lg">
                     {setting.name}:
                     <div class="flex text-sm gap-2 relative">
                         {config[setting.key].toFixed(1)}
@@ -98,6 +129,15 @@
                                 class="w-96"
                         >
                     </div>
+                </div>
+            {:else if setting.type === 'combo'}
+                <div class="flex justify-between items-center mb-5 gap-5 text-lg">
+                    {setting.name}:
+                    <select class="outline-none p-2 rounded">
+                        {#each setting.values as val}
+                            <option>{val}</option>
+                        {/each}
+                    </select>
                 </div>
             {/if}
         {/each}
@@ -118,7 +158,13 @@
                 {/if}
                 <label class="cursor-pointer">
                     <input type="checkbox" class="hidden peer" bind:checked={config[module.key]}>
-                    <div class="bg-gray-300 peer-checked:bg-blue-500 h-8"></div>
+                    <div class="flex items-center justify-center bg-gray-300 peer-checked:bg-blue-500 h-8">
+                        {#if config[module.key]}
+                            <p class="text-white text-xl">Enabled</p>
+                        {:else}
+                            <p class="text-xl">Disabled</p>
+                        {/if}
+                    </div>
                 </label>
             </span>
         {/each}
@@ -130,6 +176,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: 200px;
+        overflow: auto;
     }
 
     input[type="range"] {
