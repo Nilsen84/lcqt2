@@ -19,7 +19,7 @@ class Transformer(private val patches: List<Patch>): ClassFileTransformer {
         val cr = ClassReader(classfileBuffer)
         cr.accept(cn, 0)
 
-        if(patches.none { it.transform(cn) }) {
+        if(patches.map { it.transform(cn) }.all { !it }) {
             return null
         }
 

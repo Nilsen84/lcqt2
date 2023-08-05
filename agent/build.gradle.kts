@@ -12,11 +12,25 @@ repositories {
     maven("https://jitpack.io")
 }
 
+sourceSets {
+    val compileOnly by creating {
+        java {
+            srcDir("src/compileOnly")
+        }
+    }
+
+    main {
+        compileClasspath += compileOnly.output
+    }
+}
+
 dependencies {
     implementation("com.github.Nilsen84:kt-bytecode-dsl:v1.1")
     implementation("org.ow2.asm:asm-tree:9.4")
     implementation("com.google.protobuf:protobuf-kotlin:3.23.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    compileOnly("net.java.jinput:jinput:2.0.5")
 }
 
 protobuf {

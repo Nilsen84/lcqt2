@@ -45,6 +45,10 @@
                 step: 0.1,
                 key: 'fpsSpoofMultiplier'
             }]
+        },
+        {
+            name: 'Raw Input',
+            key: 'rawInputEnabled'
         }
     ]
 
@@ -103,8 +107,9 @@
         {/each}
     </div>
 {:else}
-    <div id="container" class="h-full overflow-y-scroll gap-5 p-5">
-        {#each modules as module}
+    <div class="p-5 h-full overflow-y-scroll">
+        <div id="container" class="gap-5">
+            {#each modules as module}
             <span class="bg-white rounded-xl flex flex-col justify-end overflow-hidden module relative">
                 <div class="flex-grow flex items-center justify-center font-normal tracking-wide">
                     <span>{module.name}</span>
@@ -121,7 +126,8 @@
                     <div class="bg-gray-300 peer-checked:bg-blue-500 h-8"></div>
                 </label>
             </span>
-        {/each}
+            {/each}
+        </div>
     </div>
 {/if}
 

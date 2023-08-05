@@ -5,6 +5,7 @@ import io.github.nilsen84.bytecode_dsl.visitAsm
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Handle
 import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Type
 import org.objectweb.asm.tree.AbstractInsnNode
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.LdcInsnNode
@@ -78,3 +79,5 @@ fun InsnBuilder.makeConcatWithConstants(
     ),
     format
 )
+
+inline fun <reified T> internalNameOf(): String = Type.getInternalName(T::class.java)

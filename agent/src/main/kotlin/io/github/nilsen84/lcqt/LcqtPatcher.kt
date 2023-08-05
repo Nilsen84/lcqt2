@@ -29,6 +29,7 @@ object LcqtPatcher {
         if (config.noHitDelayEnabled) patches += NoHitDelayPatch()
         if (config.debugModsEnabled) patches += DebugModsPatch()
         if (config.fpsSpoofEnabled) patches += FPSSpoofPatch()
+        if (config.rawInputEnabled) patches += RawInputPatch()
 
         println("RUNNING LCQT WITH PATCHES: " + patches.joinToString {
             it::class.simpleName!!
@@ -36,5 +37,4 @@ object LcqtPatcher {
 
         inst.addTransformer(Transformer(patches))
     }
-
 }

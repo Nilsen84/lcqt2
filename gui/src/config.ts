@@ -17,5 +17,7 @@ export type Config = {
     debugModsEnabled: boolean,
 
     fpsSpoofEnabled: boolean,
-    fpsSpoofMultiplier: number
+    fpsSpoofMultiplier: number,
+
+    rawInputEnabled: boolean
 }
