@@ -41,7 +41,9 @@
         fpsSpoofEnabled: false,
         fpsSpoofMultiplier: 1.0,
 
-        rawInputEnabled: false
+        rawInputEnabled: false,
+
+        packFixEnabled: false
     }
 
     if(!dev) {

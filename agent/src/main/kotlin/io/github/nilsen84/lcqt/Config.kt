@@ -14,4 +14,6 @@ class Config {
     val fpsSpoofMultiplier: Float = 1.0f
 
     val rawInputEnabled: Boolean = false
+
+    val packFixEnabled: Boolean = false
 }

@@ -30,6 +30,7 @@ object LcqtPatcher {
         if (config.debugModsEnabled) patches += DebugModsPatch()
         if (config.fpsSpoofEnabled) patches += FPSSpoofPatch()
         if (config.rawInputEnabled) patches += RawInputPatch()
+        if (config.packFixEnabled) patches += PackFixPatch()
 
         println("RUNNING LCQT WITH PATCHES: " + patches.joinToString {
             it::class.simpleName!!

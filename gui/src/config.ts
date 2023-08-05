@@ -19,5 +19,7 @@ export type Config = {
     fpsSpoofEnabled: boolean,
     fpsSpoofMultiplier: number,
 
-    rawInputEnabled: boolean
+    rawInputEnabled: boolean,
+
+    packFixEnabled: boolean
 }

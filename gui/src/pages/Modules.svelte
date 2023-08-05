@@ -49,6 +49,10 @@
         {
             name: 'Raw Input',
             key: 'rawInputEnabled'
+        },
+        {
+            name: 'Lunar Pack Fix',
+            key: 'packFixEnabled'
         }
     ]
 
@@ -146,12 +150,12 @@
 
     input[type="range"]::-webkit-slider-runnable-track {
         @apply bg-gray-400 rounded;
-        height: 8px;
+        height: 6px;
     }
 
     input[type="range"]::-webkit-slider-thumb {
-        margin-top: -4px;
-        @apply rounded-full bg-blue-400;
+        margin-top: -5px;
+        @apply rounded-full bg-blue-400 scale-110;
     }
 
 
