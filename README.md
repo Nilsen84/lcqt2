@@ -43,22 +43,22 @@
   
 ***Note: As always, use this at YOUR OWN RISK, I am not responsible for any damages that may occur.***
 
-  ## Installation
-  #### Windows
-  Simply download and run the setup executable [here](https://github.com/Nilsen84/lcqt2/releases/latest). </br>
-  If you prefer a portable version, download the [zip](https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip).
+## Installation
+#### Windows
+Simply download and run the setup executable [here](https://github.com/Nilsen84/lcqt2/releases/latest). </br>
+If you prefer a portable version, download the [zip](https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip).
 
-  #### Arch Linux
-  Use the AUR package: [lunar-client-qt2](https://aur.archlinux.org/packages/lunar-client-qt2).
+#### Arch Linux
+Use the AUR package: [lunar-client-qt2](https://aur.archlinux.org/packages/lunar-client-qt2).
 
-  #### macOS/Linux
-  > If you are using Linux, be sure to have the `Lunar Client-X.AppImage` renamed to `lunarclient` in `/usr/bin/`.
-  1. Download the file: [Linux](https://github.com/Nilsen84/lcqt2/releases/latest/download/linux-portable.tar.gz) or [macOS](https://github.com/Nilsen84/lcqt2/releases/latest/download/macos-portable.tar.gz).
-  2. Extract it anywhere (`tar -xf os-portable.tar.gz`)
-  3. Run the `Lunar Client Qt` executable
+#### macOS/Linux
+> If you are using Linux, be sure to have the `Lunar Client-X.AppImage` renamed to `lunarclient` in `/usr/bin/`. Alternatively, run lcqt2 with `Lunar Client Qt ~/path/to/lunar/appimage`.
+1. Download the file: [Linux](https://github.com/Nilsen84/lcqt2/releases/latest/download/linux-portable.tar.gz) or [macOS](https://github.com/Nilsen84/lcqt2/releases/latest/download/macos-portable.tar.gz).
+2. Extract it anywhere (`tar -xf os-portable.tar.gz`)
+3. Run the `Lunar Client Qt` executable
 
-  > **IMPORTANT:** All 3 files which where inside the tar need to stay together.  
-  > You are allowed to move all 3 together, you're also allowed to create symlinks.
+> **IMPORTANT:** All 3 files which where inside the tar need to stay together.  
+> You are allowed to move all 3 together, you're also allowed to create symlinks.
 
   ## Building
   #### Prerequisites
