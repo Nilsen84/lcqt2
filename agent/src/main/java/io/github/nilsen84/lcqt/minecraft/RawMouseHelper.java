@@ -18,8 +18,6 @@ public class RawMouseHelper extends MouseHelper {
 
     @Override
     public void mouseXYChange() {
-        System.out.println("MOUSE XY CHANGE");
-
         this.deltaX = 0;
         this.deltaY = 0;
 
