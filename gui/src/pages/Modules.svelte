@@ -5,7 +5,33 @@
 
     export let config: Config
 
-    const modules = [
+    type TextSetting = {
+        type: 'text';
+        key: keyof Config;
+        name: string;
+        placeholder: string
+    }
+
+    type SliderSetting = {
+        type: 'slider';
+        key: keyof Config;
+        name: string;
+        min: number
+        max: number
+        step: number
+    }
+
+    type Setting =
+        | TextSetting
+        | SliderSetting;
+
+    type Module = {
+        name: string
+        key: keyof Config
+        settings?: Setting[]
+    }
+
+    const modules: Module[] = [
         {
             name: 'Cosmetics Unlocker',
             key: 'cosmeticsEnabled',
