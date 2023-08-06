@@ -3,7 +3,6 @@
     import Settings from "./pages/Settings.svelte";
     import github from "./assets/github.svg"
     import discord from "./assets/discord.svg"
-    import type { Config } from "./config";
 
     const dev: boolean = import.meta.env.DEV
 
@@ -19,55 +18,6 @@
     ]
 
     let selected = pages[0]
-
-    let config: Config = {
-        cosmeticsEnabled: false,
-
-        crackedEnabled: false,
-        crackedUsername: '',
-
-        freelookEnabled: false,
-
-        noHitDelayEnabled: false,
-
-        customJvmEnabled: false,
-        customJvm: '',
-
-        jvmArgsEnabled: true,
-        jvmArgs: '',
-
-        debugModsEnabled: false,
-
-        fpsSpoofEnabled: false,
-        fpsSpoofMultiplier: 1.0,
-
-        rawInputEnabled: false,
-
-        packFixEnabled: false
-    }
-
-    if(!dev) {
-        const configPath: string = window.process.argv.pop()
-        const fs = require('fs')
-
-        try {
-            config = {...config, ...JSON.parse(fs.readFileSync(configPath, 'utf8'))}
-        }catch(e) {
-            console.error(e)
-        }
-
-        if(typeof(config.customJvm) == 'boolean') {
-            config.customJvm = ''
-        }
-
-        window.onchange = () => {
-            fs.writeFileSync(
-                configPath,
-                JSON.stringify(config, null, 4),
-                'utf8'
-            )
-        }
-    }
 
     function openUrl(url: string) {
         if(dev) {
@@ -108,6 +58,6 @@
         {/each}
     </div>
     <div class="bg-gray-200 flex-grow">
-        <svelte:component this={selected.component} config={config}></svelte:component>
+        <svelte:component this={selected.component}></svelte:component>
     </div>
 </main>

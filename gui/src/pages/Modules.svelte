@@ -1,9 +1,7 @@
 <script lang="ts">
     import circleLeft from "../assets/circle-left.png"
     import {onMount} from "svelte";
-    import type {Config} from "../config";
-
-    export let config: Config
+    import { config, type Config } from "../config";
 
     type TextSetting = {
         type: 'text';
@@ -115,20 +113,20 @@
                             class="outline-none p-1 rounded"
                             spellcheck="false"
                             placeholder={setting.placeholder}
-                            bind:value={config[setting.key]}
+                            bind:value={$config[setting.key]}
                     >
                 </div>
             {:else if setting.type === 'slider'}
                 <div class="flex justify-between items-center gap-5 text-lg">
                     {setting.name}:
                     <div class="flex text-sm gap-2 relative">
-                        {config[setting.key].toFixed(1)}
+                        {$config[setting.key].toFixed(1)}
                         <input
                                 type="range"
                                 min={setting.min}
                                 max={setting.max}
                                 step={setting.step}
-                                bind:value={config[setting.key]}
+                                bind:value={$config[setting.key]}
                                 class="w-96"
                         >
                     </div>
@@ -152,7 +150,7 @@
                     </button>
                 {/if}
                 <label class="cursor-pointer">
-                    <input type="checkbox" class="hidden peer" bind:checked={config[module.key]}>
+                    <input type="checkbox" class="hidden peer" bind:checked={$config[module.key]}>
                     <div class="bg-gray-300 peer-checked:bg-blue-500 h-8"></div>
                 </label>
             </span>
