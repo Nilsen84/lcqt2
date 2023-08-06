@@ -50,7 +50,7 @@
         <hr>
         {#each pages as page}
             <label class="cursor-pointer">
-                <input type="radio" class="peer hidden" value={page} bind:group={selected}>
+                <input type="radio" class="peer hidden" value={page} bind:group={selected} on:change|stopPropagation>
                 <div class="py-3 peer-checked:bg-blue-500 peer-checked:text-white">
                     {page.name}
                 </div>
