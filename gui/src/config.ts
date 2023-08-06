@@ -2,33 +2,7 @@ import {writable} from "svelte/store";
 
 const dev: boolean = import.meta.env.DEV
 
-export type Config = {
-    cosmeticsEnabled: boolean,
-
-    crackedEnabled: boolean,
-    crackedUsername: string,
-
-    freelookEnabled: boolean,
-
-    noHitDelayEnabled: boolean,
-
-    customJvmEnabled: boolean,
-    customJvm: string,
-
-    jvmArgsEnabled: boolean,
-    jvmArgs: string,
-
-    debugModsEnabled: boolean,
-
-    fpsSpoofEnabled: boolean,
-    fpsSpoofMultiplier: number,
-
-    rawInputEnabled: boolean,
-
-    packFixEnabled: boolean
-}
-
-let defaultConfig: Config = {
+let defaultConfig = {
     cosmeticsEnabled: false,
 
     crackedEnabled: false,
@@ -53,6 +27,8 @@ let defaultConfig: Config = {
 
     packFixEnabled: false
 }
+
+export type Config = typeof defaultConfig
 
 function createConfig() {
     let config: Config = { ...defaultConfig }
