@@ -14,6 +14,7 @@ class PackFixPatch: Patch() {
         mn.instructions.insert(asm {
             iconst_1
             ireturn
+            f_same()
         })
 
         return true
