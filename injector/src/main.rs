@@ -30,7 +30,13 @@ fn find_lunar_executable() -> Result<String, String> {
                 format!(r"{localappdata}\Programs\lunarclient\Lunar Client.exe")
             ]
         }
-        "macos" => vec!["/Applications/Lunar Client.app/Contents/MacOS/Lunar Client".into(),"~/Applications/Lunar Client.app/Contents/MacOS/Lunar Client".into()],
+        "macos" => vec![
+            "/Applications/Lunar Client.app/Contents/MacOS/Lunar Client".into(),
+            format!(
+                "{}/Applications/Lunar Client.app/Contents/MacOS/Lunar Client",
+                env::var("HOME").or(Err("$HOME not defined"))?
+            )
+        ],
         "linux" => vec!["/usr/bin/lunarclient".into()],
         _ => Err("unsupported os")?
     };
