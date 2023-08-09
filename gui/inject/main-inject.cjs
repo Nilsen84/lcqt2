@@ -94,7 +94,7 @@ module.exports = function() {
                 ...config.agents
                     ? config.agents.filter(a => a.enabled).map(a => `-javaagent:${a.path}=${a.option}`)
                     : [],
-                `-javaagent:${path.join(installDir, 'agent.jar')}=${configPath}`,
+                `-javaagent:${path.join(installDir, 'agent.jar')}`,
                 ...config.jvmArgsEnabled ? parse(config.jvmArgs) : []
             ],
             minecraftArgs: config.crackedEnabled && config.crackedUsername ? [

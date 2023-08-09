@@ -10,7 +10,6 @@ import lunarapi.emote.EmoteService.UpdateEquippedEmotes
 import lunarapi.emote.EmoteService.UseEmoteResponse
 import lunarapi.util.Util.Color
 import java.io.File
-import kotlin.io.encoding.Base64
 
 @Suppress("unused")
 object Proxy {
@@ -21,7 +20,7 @@ object Proxy {
         assetDir.resolve("emotes/emotes.json").readText()
     ).emotes
 
-    private val configFile: File = LcqtPatcher.configFile.resolveSibling("cosmetics.json")
+    private val configFile: File = LcqtPatcher.configDir.resolve("cosmetics.json")
     private val config = runCatching {
         LcqtPatcher.JSON.decodeFromString<Config>(configFile.readText())
     }.getOrDefault(Config())
@@ -103,7 +102,7 @@ object Proxy {
                         .build()
                         .toByteArray()
                 }
-                return contents;
+                return contents
             }
             else -> return contents
         }

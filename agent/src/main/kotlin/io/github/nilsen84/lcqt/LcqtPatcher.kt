@@ -8,20 +8,19 @@ import java.lang.instrument.Instrumentation
 
 object LcqtPatcher {
     val JSON = Json { ignoreUnknownKeys = true; prettyPrint = true }
-    lateinit var configFile: File private set
+
+    @get:JvmName("configDir")
+    val configDir = getConfigDir()
+
+    val config: Config = try {
+        JSON.decodeFromString(configDir.resolve("config.json").readText())
+    } catch (e: FileNotFoundException) {
+        e.printStackTrace()
+        Config()
+    }
 
     @JvmStatic
-    lateinit var config: Config private set
-
-    @JvmStatic
-    fun premain(configPath: String, inst: Instrumentation) {
-        configFile = File(configPath)
-        config = try {
-            JSON.decodeFromString<Config>(File(configPath).readText())
-        } catch (e: FileNotFoundException) {
-            Config()
-        }
-
+    fun premain(configPath: String?, inst: Instrumentation) {
         val patches = mutableListOf<Patch>(ClassloaderPatch())
         if (config.cosmeticsEnabled) patches += CosmeticsPatch()
         if (config.freelookEnabled) patches += FreelookPatch()
@@ -37,5 +36,18 @@ object LcqtPatcher {
         })
 
         inst.addTransformer(Transformer(patches))
+    }
+
+    private fun getConfigDir(): File {
+        val os = System.getProperty("os.name").lowercase()
+        val home = System.getProperty("user.home")
+
+        val configDir: File = when {
+            os.contains("windows") -> System.getenv("APPDATA")?.let(::File) ?: File(home, "AppData\\Roaming")
+            os.contains("mac") -> File(home, "Library/Application Support")
+            else -> System.getenv("XDG_CONFIG_HOME")?.let(::File) ?: File(home, ".config")
+        }
+
+        return File(configDir, "lcqt2")
     }
 }
