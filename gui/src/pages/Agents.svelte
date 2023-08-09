@@ -41,12 +41,15 @@
 
     <div class="flex flex-col p-4 gap-2">
         {#each $config.agents as agent, i (agent.path)}
-            <div class="flex items-center bg-white px-2 w-full h-10 rounded-lg">
+            <div class="flex items-center bg-white px-2 w-full h-10 rounded-lg agent">
                 <input tabindex="-1" type="checkbox" class="scale-[115%]" bind:checked={agent.enabled}>
                 <span
                         title={agent.path}
                         class="ml-2 h-10 flex items-center"
-                        on:click={() => agent.enabled ^= 1}
+                        on:click={() => {
+                            agent.enabled ^= 1
+                            window.dispatchEvent(new Event('change'))
+                        }}
                 >
                     {agent.path.replace(/^.*[\\\/]/, '')}
                 </span>
@@ -56,6 +59,7 @@
                         class="outline-none p-1 text-sm border-2 rounded mr-1"
                         placeholder="Option"
                         spellcheck="false"
+                        bind:value={agent.option}
                 >
                 <button tabindex="-1" class="flex justify-center items-center" on:click={() => removeAgent(i)}>
                     <img draggable="false" src={trash} alt="remove" width="26" class="opacity-75">
@@ -67,4 +71,7 @@
 
 
 <style>
+    .agent {
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
 </style>
