@@ -105,6 +105,9 @@ fn run() -> Result<(), Box<dyn Error>> {
 fn main() {
     if let Err(e) = run() {
         eprintln!("[error] {}", e);
+        if cfg!(windows) {
+            Command::new("cmd.exe").arg("/c").arg("pause").status().unwrap();
+        }
         std::process::exit(1);
     }
 }
