@@ -25,7 +25,9 @@ let defaultConfig = {
 
     rawInputEnabled: false,
 
-    packFixEnabled: false
+    packFixEnabled: false,
+
+    agents: [] as { enabled: boolean, path: string, option: string }[]
 }
 
 export type Config = typeof defaultConfig

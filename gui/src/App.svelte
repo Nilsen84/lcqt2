@@ -3,6 +3,7 @@
     import Settings from "./pages/Settings.svelte";
     import github from "./assets/github.svg"
     import discord from "./assets/discord.svg"
+    import Agents from "./pages/Agents.svelte";
 
     const dev: boolean = import.meta.env.DEV
 
@@ -10,6 +11,10 @@
         {
             name: 'Modules',
             component: Modules
+        },
+        {
+            name: 'Agents',
+            component: Agents
         },
         {
             name: 'Settings',

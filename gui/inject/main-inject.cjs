@@ -78,9 +78,10 @@ module.exports = function() {
             autoHideMenuBar: true
         })
 
-        window.on('close', e => {
+        window.on('close', () => {
             mainWin.focus()
         });
+
         window.loadURL(`file://${__dirname}/index.html`)
     })
 
@@ -90,6 +91,9 @@ module.exports = function() {
         event.returnValue = {
             customJvm: config.customJvmEnabled && config.customJvm,
             jvmArgs: [
+                ...config.agents
+                    ? config.agents.filter(a => a.enabled).map(a => `-javaagent:${a.path}=${a.option}`)
+                    : [],
                 `-javaagent:${path.join(installDir, 'agent.jar')}=${configPath}`,
                 ...config.jvmArgsEnabled ? parse(config.jvmArgs) : []
             ],
