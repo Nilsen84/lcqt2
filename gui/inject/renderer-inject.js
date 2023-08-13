@@ -1,33 +1,4 @@
 import syringe from './syringe.svg'
-const { ipcRenderer } = require('electron')
-const path = require('path')
-const cp = require('child_process'), originalSpawn = cp.spawn
-
-cp.spawn = function (cmd, args, opts) {
-    if (!['javaw', 'java'].includes(path.basename(cmd, '.exe'))) {
-        return originalSpawn(cmd, args, opts)
-    }
-
-    args = args.filter(e => e !== '-XX:+DisableAttachMechanism');
-
-    delete opts.env['_JAVA_OPTIONS'];
-    delete opts.env['JAVA_TOOL_OPTIONS'];
-    delete opts.env['JDK_JAVA_OPTIONS'];
-
-    let lcqtOpts = ipcRenderer.sendSync('LCQT_GET_LAUNCH_OPTIONS')
-
-    args.splice(
-        Math.max(0, args.indexOf('-cp')),
-        0,
-        ...lcqtOpts.jvmArgs
-    )
-
-    return originalSpawn(
-        lcqtOpts.customJvm || cmd,
-        [...args, ...lcqtOpts.minecraftArgs],
-        opts
-    )
-}
 
 function waitForElement(selector) {
     return new Promise(resolve => {
@@ -49,10 +20,13 @@ function waitForElement(selector) {
     })
 }
 
-waitForElement("#exit-button").then(exitButton => {
-    let clone = exitButton.cloneNode(false)
+waitForElement(".fa-gears").then(faGears => {
+    let settingsButton = faGears.parentNode
+
+    let clone = settingsButton.cloneNode(false)
     clone.id = null
-    clone.innerHTML = `<img src='${syringe}' width="22" height="22"/>`
-    clone.addEventListener('click', () => ipcRenderer.send('LCQT_OPEN_WINDOW'))
-    exitButton.parentNode.insertBefore(clone, exitButton)
+    clone.innerHTML = `<img src='${syringe}' width="30" alt="lcqt"/>`
+    clone.addEventListener('click', () => window.electron.ipcRenderer.sendMessage('LCQT_OPEN_WINDOW'))
+
+    settingsButton.parentNode.insertBefore(clone, settingsButton)
 })

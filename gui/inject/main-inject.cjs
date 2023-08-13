@@ -1,12 +1,13 @@
 import renderer from './renderer-inject.js'
 
 module.exports = function() {
-    const { app, ipcMain, BrowserWindow, webContents, dialog, shell } = require('electron')
+    const cp = require('child_process'), originalSpawn = cp.spawn
     const path = require('path')
     const fs = require('fs')
-    const parse = require('shell-quote/parse')
-    const semver = require('semver')
     const https = require('https')
+    const { app, webContents, dialog, shell, BrowserWindow, ipcMain } = require('electron')
+    const semver = require('semver')
+    const parse = require('shell-quote/parse')
 
     const installDir = path.dirname(__dirname)
 
@@ -60,6 +61,18 @@ module.exports = function() {
         }
     }
 
+    ipcMain.on('LCQT_READ_CONFIG', event => {
+        event.returnValue = readConfigSync()
+    })
+
+    ipcMain.on('LCQT_WRITE_CONFIG', async (event, config) => {
+        await fs.promises.writeFile(
+            configPath,
+            JSON.stringify(config, null, 4),
+            'utf8'
+        )
+    })
+
     ipcMain.on('LCQT_OPEN_WINDOW', event => {
         let mainWin = BrowserWindow.fromWebContents(event.sender)
 
@@ -73,7 +86,6 @@ module.exports = function() {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
-                additionalArguments: [configPath]
             },
             autoHideMenuBar: true
         })
@@ -85,34 +97,44 @@ module.exports = function() {
         window.loadURL(`file://${__dirname}/index.html`)
     })
 
-    ipcMain.on('LCQT_GET_LAUNCH_OPTIONS', (event) => {
+    cp.spawn = (cmd, args, opts) => {
+        if(!['javaw', 'java'].includes(path.basename(cmd, '.exe'))) {
+            return originalSpawn(cmd, args, opts)
+        }
+
         let config = readConfigSync()
 
-        event.returnValue = {
-            customJvm: config.customJvmEnabled && config.customJvm,
-            jvmArgs: [
-                ...config.agents
-                    ? config.agents.filter(a => a.enabled).map(a => `-javaagent:${a.path}=${a.option}`)
-                    : [],
-                `-javaagent:${path.join(installDir, 'agent.jar')}`,
-                ...config.jvmArgsEnabled ? parse(config.jvmArgs) : []
-            ],
-            minecraftArgs: config.crackedEnabled && config.crackedUsername ? [
-                '--username', config.crackedUsername
-            ] : []
+        args = args.filter(e => e !== '-XX:+DisableAttachMechanism');
+        delete opts.env['_JAVA_OPTIONS'];
+        delete opts.env['JAVA_TOOL_OPTIONS'];
+        delete opts.env['JDK_JAVA_OPTIONS'];
+
+        args.splice(
+            Math.max(0, args.indexOf('-cp')),
+            0,
+            ...config.agents ? config.agents.filter(a => a.enabled).map(a => `-javaagent:${a.path}=${a.option}`) : [],
+            `-javaagent:${path.join(installDir, 'agent.jar')}`,
+            ...config.jvmArgsEnabled ? parse(config.jvmArgs) : []
+        )
+
+        if(config.crackedEnabled && config.crackedUsername) {
+            args.push('--username', config.crackedUsername)
         }
-    })
+
+        return originalSpawn(
+            config.customJvmEnabled && config.customJvm || cmd,
+            args,
+            opts
+        )
+    }
 
     for(const contents of webContents.getAllWebContents()) {
-        contents.removeAllListeners('devtools-opened')
         contents.executeJavaScript(renderer)
     }
 
     app.on('web-contents-created', (event, webContents) => {
         webContents.on('dom-ready', () => {
             if(webContents.getURL().includes(__dirname)) return
-
-            webContents.removeAllListeners('devtools-opened')
             webContents.executeJavaScript(renderer)
         })
     })

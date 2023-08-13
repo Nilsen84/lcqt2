@@ -36,25 +36,15 @@ function createConfig() {
     let config: Config = { ...defaultConfig }
 
     if (!dev) {
-        const configPath: string = window.process.argv.pop()
-        const fs = require('fs')
-
-        try {
-            config = {...config, ...JSON.parse(fs.readFileSync(configPath, 'utf8'))}
-        }catch(e) {
-            console.error(e)
-        }
+        const { ipcRenderer } = require('electron')
+        config = {...config, ...ipcRenderer.sendSync('LCQT_READ_CONFIG')}
 
         if (typeof(config.customJvm) == 'boolean') {
             config.customJvm = ''
         }
 
         window.onchange = () => {
-            fs.writeFileSync(
-                configPath,
-                JSON.stringify(config, null, 4),
-                'utf8'
-            )
+            ipcRenderer.send('LCQT_WRITE_CONFIG', config)
         }
     }
 

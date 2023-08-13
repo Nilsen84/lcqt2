@@ -89,6 +89,8 @@ fn run() -> Result<(), Box<dyn Error>> {
             serde_json::to_string(env::current_exe()?.parent().unwrap())?
         );
 
+        println!("[LCQT] Sending payload");
+
         debugger.send("Runtime.evaluate", json!({
             "expression": payload,
             "includeCommandLineAPI": true
