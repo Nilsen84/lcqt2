@@ -22,7 +22,7 @@ dependencies {
     components(project(":agent", "shadow"))
     components(project(":injector"))
     components(project(":gui", "asar"))
-    components(project(":patcher", "file"
+    components(project(":patcher"))
 }
 
 tasks.withType<Tar>().configureEach {

@@ -23,30 +23,14 @@ val buildGui by tasks.registering(Exec::class) {
 
     //recompile if tag changes
     inputs.dir("../.git/refs/tags")
-    inputs.dir("src")
-    inputs.dir("inject")
     inputs.dir("node_modules")
     inputs.files(
-        "index.html",
-        "svelte.config.js",
         "tsconfig.json",
-        "tsconfig.node.json",
-        "vite.config.ts",
-        "postcss.config.js",
-        "tailwind.config.js"
     )
 
-    outputs.dir("out")
+    outputs.dir("build")
 }
 
 tasks.clean {
-    delete("out")
-}
-
-configurations.create("asar") {
-    isCanBeConsumed = true
-    isCanBeResolved = false
-    outgoing.artifact(file("out/gui.asar")) {
-        builtBy(buildGui)
-    }
+    delete("build")
 }

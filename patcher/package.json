@@ -6,12 +6,14 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "ts-node ./index.ts",
-        "build": "tsc --outDir build/",
+        "js": "tsc --outDir build/",
         "_file_win": "nexe -i build/index.js -o build/patcher.exe -t win32-x64-14.5.0",
         "_file_linux": "nexe -i build/index.js -o build/patcher -t linux-x64-14.5.0",
         "_file_mac": "nexe -i build/index.js -o build/patcher -t mac-x64-14.5.0",
         "file": "npx pkg -t node14-macos-x64,node14-linux-x64,node14-win-x64 .\\build\\index.js",
-        "compile": "npm run build && npm run file"
+        "compile": "npm run js && npm run file",
+        "move_compiled": "node -e \"require('fs').mkdirSync('build/patcher', {recursive:true});\"  && mv index-* build/patcher",
+        "build": "npm run compile && npm run move_compiled"
     },
     "repository": {
         "type": "git",
