@@ -5,3 +5,8 @@
 build
 
 .idea
+
+# Ignore node_modules directory
+**/*/node_modules
+index*
+!index.ts
