@@ -57,6 +57,45 @@ fn wait_for_websocket_url(child: &mut Child) -> io::Result<String> {
     Err(io::Error::new(ErrorKind::UnexpectedEof, "'Debugger listening on ' was never printed"))
 }
 
+fn kill_lunar() -> Result<(), Box<dyn Error>> {
+    //switch the os
+    
+    match env::consts::OS {
+        "windows" => {
+            let mut cmd = Command::new("taskkill");
+            
+            cmd.args(&["/IM", "Lunar Client.exe", "/F"]);
+
+            cmd.stdin(Stdio::null());
+            cmd.stderr(Stdio::piped());
+            cmd.stdout(Stdio::piped());
+
+            let mut _cp = cmd.spawn().map_err(|e| format!("failed to kill lunar: {}", e))?;
+
+        }
+        "macos" => {
+            let mut cmd = Command::new("killall");
+            cmd.arg("Lunar Client");
+            cmd.stdin(Stdio::null());
+            cmd.stderr(Stdio::piped());
+            cmd.stdout(Stdio::null());
+            let mut _cp = cmd.spawn().map_err(|e| format!("failed to kill lunar: {}", e))?;
+        }
+        "linux" => {
+            let mut cmd = Command::new("pkill");
+            cmd.arg("Lunar Client");
+            cmd.stdin(Stdio::null());
+            cmd.stderr(Stdio::piped());
+            cmd.stdout(Stdio::null());
+            let mut _cp = cmd.spawn().map_err(|e| format!("failed to kill lunar: {}", e))?;
+        }
+        _ => Err("unsupported os")?
+    };
+
+    Ok(())
+    
+}
+
 fn run() -> Result<(), Box<dyn Error>> {
     let lunar_exe = match env::args().nth(1) {
         Some(arg) => arg,
@@ -64,6 +103,10 @@ fn run() -> Result<(), Box<dyn Error>> {
             format!("failed to locate lunars launcher: {}", e)
         )?
     };
+
+    kill_lunar()?;
+
+    thread::sleep(Duration::from_millis(100));
 
     let port = free_port()?;
 
