@@ -1,0 +1,52 @@
+{
+    "name": "patcher",
+    "version": "1.0.0",
+    "description": "Patcher for lcqt2",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "ts-node ./index.ts",
+        "js": "tsc --outDir build/",
+        "_file_win": "nexe -i build/index.js -o build/patcher.exe -t win32-x64-14.5.0",
+        "_file_linux": "nexe -i build/index.js -o build/patcher -t linux-x64-14.5.0",
+        "_file_mac": "nexe -i build/index.js -o build/patcher -t mac-x64-14.5.0",
+        "file": "npx pkg -t node14-macos-x64,node14-linux-x64,node14-win-x64 .\\build\\index.js",
+        "compile": "npm run js && npm run file",
+        "move_compiled": "node -e \"require('fs').mkdirSync('build/patcher', {recursive:true});\"  && mv index-* build/patcher",
+        "build": "npm run compile && npm run move_compiled"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nilsen84/lcqt2.git"
+    },
+    "author": "",
+    "license": "SEE LICENSE IN LICENSE",
+    "bugs": {
+        "url": "https://github.com/Nilsen84/lcqt2/issues"
+    },
+    "homepage": "https://github.com/Nilsen84/lcqt2#readme",
+    "devDependencies": {
+        "@types/node": "^17.0.41",
+        "nexe": "^4.0.0-rc.2",
+        "typescript": "^3.9.10"
+    },
+    "dependencies": {
+        "@electron/asar": "^3.2.4",
+        "ps-node": "^0.1.6"
+    },
+    "pkg": {
+        "scripts": [
+            "build/index.js"
+        ],
+        "targets": [
+            "node14-linux-x64",
+            "node14-macos-x64",
+            "node14-win-x64"
+        ],
+        "assets": [
+            "unpacked/**",
+            "gui.asar"
+        ],
+        "outputPath": "build\\patcher"
+    }
+}

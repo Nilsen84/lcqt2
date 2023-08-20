@@ -1,2 +1,2 @@
 rootProject.name = "lcqt2"
-include("gui", "injector", "agent")
+include("gui", "injector", "agent", "patcher")
