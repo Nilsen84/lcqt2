@@ -6,4 +6,7 @@ build
 
 .idea
 
-patcher/
+
+**/*/node_modules
+index*
+!index.ts
