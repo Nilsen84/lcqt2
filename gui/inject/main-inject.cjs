@@ -5,7 +5,7 @@ module.exports = function() {
     const path = require('path')
     const fs = require('fs')
     const https = require('https')
-    const { app, webContents, dialog, shell, BrowserWindow, ipcMain } = require('electron')
+    const { app, dialog, shell, BrowserWindow, ipcMain } = require('electron')
     const semver = require('semver')
     const parse = require('shell-quote/parse')
 
@@ -126,10 +126,6 @@ module.exports = function() {
             args,
             opts
         )
-    }
-
-    for(const contents of webContents.getAllWebContents()) {
-        contents.executeJavaScript(renderer)
     }
 
     app.on('web-contents-created', (event, webContents) => {

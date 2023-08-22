@@ -60,7 +60,7 @@ export default defineConfig({
                     entryPoints: ['inject/main-inject.cjs'],
                     bundle: true,
                     outdir: 'out/dist',
-                    //minify: true,
+                    minify: true,
                     platform: 'node',
                     external: ['electron'],
                     plugins: [esbuildRendererPlugin],
