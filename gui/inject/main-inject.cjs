@@ -1,6 +1,26 @@
 import renderer from './renderer-inject.js'
 
 module.exports = function() {
+    const { Hook } = require('require-in-the-middle')
+    new Hook(['electron'], function (exports) {
+        return Object.assign({}, exports, {
+            BrowserWindow: class extends exports.BrowserWindow {
+                constructor(props) {
+                    props.webPreferences.devTools = true
+                    super(props);
+                    this.webContents.on('dom-ready', () => {
+                        if (this.webContents.getURL().includes(__dirname)) return
+                        this.webContents.executeJavaScript(renderer)
+                    })
+                    this.webContents.on('newListener', (evt, listener) => {
+                        if (evt !== 'devtools-opened') return
+                        setImmediate(() => this.webContents.off(evt, listener))
+                    })
+                }
+            }
+        })
+    })
+
     const cp = require('child_process'), originalSpawn = cp.spawn
     const path = require('path')
     const fs = require('fs')
@@ -127,11 +147,4 @@ module.exports = function() {
             opts
         )
     }
-
-    app.on('web-contents-created', (event, webContents) => {
-        webContents.on('dom-ready', () => {
-            if(webContents.getURL().includes(__dirname)) return
-            webContents.executeJavaScript(renderer)
-        })
-    })
 }
