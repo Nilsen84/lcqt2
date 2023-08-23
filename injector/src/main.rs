@@ -65,7 +65,9 @@ fn run() -> Result<(), Box<dyn Error>> {
     let lunar_exe = match env::args().nth(1) {
         Some(arg) => arg,
         _ => find_lunar_executable()
-            .map_err(|e| format!("failed to locate lunars launcher: {}", e))?,
+            .map_err(|e|
+                format!("failed to locate lunars launcher: {e}\nMake sure you have lunar installed before running lcqt")
+            )?,
     };
 
     let mut cp = Command::new(&lunar_exe)
@@ -142,9 +144,7 @@ fn main() {
             .args(["/im", "Lunar Client.exe", "/f"])
             .stdin(Stdio::null())
             .status()
-            .inspect_err(|e| {
-                eprintln!("[error] failed to start taskkill.exe: {e}")
-            });
+            .inspect_err(|e| eprintln!("[error] failed to start taskkill.exe: {e}"));
     }
 
     if let Err(e) = run() {
